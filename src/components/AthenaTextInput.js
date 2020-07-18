@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, TextInput } from 'react-native';
+import {StyleSheet, TextInput } from 'react-native';
 
 import Global from '../views/Global';
 
@@ -21,6 +21,7 @@ class AthenaTextInput extends React.Component {
           placeholderTextColor={Global.DARK_GRAY_COLOR}
           underlineColorAndroid="transparent"
           // onChangeText={(address) => this.setState({address})}
+          onChangeText={this.props.onChangeText}
       />          
     );
   }

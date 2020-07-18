@@ -29,13 +29,13 @@ import AthenaButton from '../components/AthenaButton';
           </View>
           <View style={styles.loginMain}>
             <View style={{width: '100%', paddingTop: 20, flexDirection: 'row'}}>
-              <AthenaTextInput placeholder="Email Address" width="100%" />
+              <AthenaTextInput placeholder="Email Address" width="100%" keyboardType="email-address"/>
             </View>     
             <View style={{width: '100%', paddingTop: 20, flexDirection: 'row'}}>
-              <AthenaTextInput placeholder="Choose a Password" width="100%" />
+              <AthenaTextInput placeholder="Choose a Password" width="100%" secureTextEntry={true}/>
             </View>      
             <View style={{width: '100%', paddingTop: 20, flexDirection: 'row'}}>
-              <AthenaTextInput placeholder="Confirm your Password" width="100%" />
+              <AthenaTextInput placeholder="Confirm your Password" width="100%" secureTextEntry={true}/>
             </View>      
             <View style={{justifyContent: 'center', alignItems: 'center', width:'100%', marginTop: 15, marginBottom: 15}}>
                 <AthenaButton buttonTitle="Register" onClick={this.onButtonClick}/>
@@ -103,8 +103,8 @@ const styles = StyleSheet.create({
   closeButton: {
     width: 25, 
     height: 25, 
-    borderWidth: 1, 
-    borderColor: Global.DARK_BLUE_COLOR,
+    // borderWidth: 1, 
+    // borderColor: Global.DARK_BLUE_COLOR,
     backgroundColor: Global.BUTTON_COLOR,
     borderRadius: 18, 
     justifyContent: 'center',

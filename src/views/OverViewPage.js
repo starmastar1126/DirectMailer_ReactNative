@@ -65,10 +65,10 @@ const overViewData = {
             </View>   
             <View style={{width: '100%', paddingTop: 10, flexDirection: 'row'}}>
               <Text style={{width: '50%', fontSize: 15, color: Global.DARK_GRAY_COLOR}}>
-                Print Mail Prep
+                Price Per Piece
               </Text>
               <Text style={{width: '50%', fontSize: 15, color: Global.DARK_GRAY_COLOR}}>
-                {overViewData.printMailPrep}
+                {overViewData.price}
               </Text>
             </View>     
             <View style={{width: '100%', paddingTop: 10, flexDirection: 'row'}}>
@@ -171,8 +171,8 @@ const styles = StyleSheet.create({
   closeButton: {
     width: 25, 
     height: 25, 
-    borderWidth: 1, 
-    borderColor: Global.DARK_BLUE_COLOR,
+    // borderWidth: 1, 
+    // borderColor: Global.DARK_BLUE_COLOR,
     backgroundColor: Global.BUTTON_COLOR,
     borderRadius: 18, 
     justifyContent: 'center',

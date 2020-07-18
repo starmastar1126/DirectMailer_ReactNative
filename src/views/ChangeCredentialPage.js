@@ -18,10 +18,10 @@ class ChangeCredentialPage extends React.Component {
         return (
             <ScrollView style={styles.container}>    
                 <View style={[styles.viewDiv, {paddingTop: 20}]}>
-                    <AthenaTextInput placeholder="Current Email" width="100%" />{/*  value={this.state.streetAddress} /> */}
+                    <AthenaTextInput placeholder="Current Email" width="100%" keyboardType="email-address" />{/*  value={this.state.streetAddress} /> */}
                 </View>   
                 <View style={[styles.viewDiv, {paddingTop: 15}]}>
-                    <AthenaTextInput placeholder="New Email" width="100%" />{/*  value={this.state.streetAddress} /> */}
+                    <AthenaTextInput placeholder="New Email" width="100%" keyboardType="email-address" />{/*  value={this.state.streetAddress} /> */}
                 </View>   
                 <View style={[styles.viewDiv, styles.spaceBetween, {paddingTop: 15}]}>
                     <View style={{width: '50%'}} />
@@ -30,10 +30,10 @@ class ChangeCredentialPage extends React.Component {
                     </View>
                 </View>   
                 <View style={[styles.viewDiv, {paddingTop: 20}]}>
-                    <AthenaTextInput placeholder="Current Password" width="100%" />{/*  value={this.state.streetAddress} /> */}
+                    <AthenaTextInput placeholder="Current Password" width="100%" secureTextEntry={true} />{/*  value={this.state.streetAddress} /> */}
                 </View>   
                 <View style={[styles.viewDiv, {paddingTop: 15}]}>
-                    <AthenaTextInput placeholder="New Password" width="100%" />{/*  value={this.state.streetAddress} /> */}
+                    <AthenaTextInput placeholder="New Password" width="100%" secureTextEntry={true} />{/*  value={this.state.streetAddress} /> */}
                 </View>   
                 <View style={[styles.viewDiv, styles.spaceBetween, {paddingTop: 15}]}>
                     <View style={{width: '50%'}} />

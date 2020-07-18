@@ -102,8 +102,8 @@ const styles = StyleSheet.create({
   closeButton: {
     width: 25, 
     height: 25, 
-    borderWidth: 1, 
-    borderColor: Global.DARK_BLUE_COLOR,
+    // borderWidth: 1, 
+    // borderColor: Global.DARK_BLUE_COLOR,
     backgroundColor: Global.BUTTON_COLOR,
     borderRadius: 18, 
     justifyContent: 'center',

@@ -11,7 +11,7 @@ class AthenaTextInput extends React.Component {
         <Picker style={styles.selectStyle} selectedValue={selectedValue} onValueChange={this.props.onValueChange}>
           {options.map((item, key) => {
             return(  
-              <Picker.Item key={key} style={styles.itemStyle} label={item.label} value={item.value} />
+              <Picker.Item key={key} label={item.label} value={item.value} mode="dialog" />
             );}
           )}   
         </Picker>    
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   },
   itemStyle: {
     paddingLeft: 10,
-    backgroundColor: '#ffddcc', 
+    backgroundColor: '#0000FF', 
     color: Global.DARK_GRAY_COLOR, 
     fontSize: 12,
   }

@@ -23,7 +23,7 @@ class ReviewOrderPage extends React.Component {
     render() {
         return (
             <ScrollView style={styles.container}>
-                <AthenaStepIndicator currentPosition={0} />
+                <AthenaStepIndicator currentPosition={2} />
                 <AthenaCard>
                     <AthenaCardTitle title='Print Product'/>
                     <AthenaCardContent>
@@ -127,7 +127,7 @@ class ReviewOrderPage extends React.Component {
                         </View>   
                     </AthenaCardContent>
                 </AthenaCard>             
-                <View style={{justifyContent: 'center', alignItems: 'center', width:'100%', paddingBottom: 20, marginTop: 10, marginBottom: 10}}>
+                <View style={{justifyContent: 'center', alignItems: 'center', width:'100%', paddingBottom: 20, marginTop: 10, marginBottom: 40}}>
                     <AthenaButton buttonTitle="CheckOut" onClick={this.onCheckOutClick}/>
                 </View>       
             </ScrollView>

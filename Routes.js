@@ -35,10 +35,8 @@ const MoonMinerNavigator = createStackNavigator({
     ChangeCredentialPage: {screen: ChangeCredentialPage},
     PaymentMethodPage: {screen: PaymentMethodPage},
     MyMapsPage: {screen: MyMapsPage},
-
-    // MapPage: {screen: MapPage},
 },{
-    initialRouteName: 'LoginPage'
+    initialRouteName: 'SplashPage'
 });
 const AppContainer = createAppContainer(MoonMinerNavigator);
 

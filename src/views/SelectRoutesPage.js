@@ -14,7 +14,7 @@ class SelectRoutesPage extends React.Component {
     constructor (props) {
         super(props);
         this.state = {residentialChecked: true, residentialValue: 10000, businessChecked: false, businessValue: 0, poBoxesChecked: false, poBoxesValue: 0,
-            showHide: '', collapseIcon: '⌃'
+            showHide: '', collapseIcon: '⌃', residentialChecked: true, residentialDisabled: true
         }
         this.onBusinessChecked = this.onBusinessChecked.bind(this);
         this.onPoBoxesChecked = this.onPoBoxesChecked.bind(this);
@@ -40,7 +40,7 @@ class SelectRoutesPage extends React.Component {
         const {collapseIcon} = this.state;
         if(collapseIcon === '⌃'){
             this.setState({showHide: styles.hide});
-            this.setState({collapseIcon: '⌄'})
+            this.setState({collapseIcon: '⌄'});
         } else {
             this.setState({showHide: ''});
             this.setState({collapseIcon: '⌃'})
@@ -50,27 +50,29 @@ class SelectRoutesPage extends React.Component {
         return (
             <View style={styles.container}>
                 <View style={styles.routesPanel}>
-                    <View style={styles.routesHeader}>
-                        <View><Text style={styles.tdHeader}>Selection Summery</Text></View>
-                        <View style={{width: '10%'}}>
-                        <TouchableOpacity style={styles.closeButton} onPress={this.onCollapseButtone}>
-                            <Text style={{fontSize: 18, color: Global.WHITE_COLOR}}>{this.state.collapseIcon}</Text>
-                        </TouchableOpacity>
+                    <TouchableOpacity onPress={this.onCollapseButtone}>
+                        <View style={styles.routesHeader}>
+                            <View><Text style={styles.tdHeader}>Selection Summary</Text></View>
+                            <View style={{width: 10}}>
+                            <TouchableOpacity>
+                                <Text style={{fontSize: 18, color: Global.WHITE_COLOR}}>{this.state.collapseIcon}</Text>
+                            </TouchableOpacity>
+                            </View>
                         </View>
-                    </View>
+                    </TouchableOpacity>
                     <View style={[styles.routesMain, this.state.showHide]}>
                         <View style={[styles.trDiv, {marginTop: 10}]}>
-                            <CheckBox style={styles.trDiv} value={true} disabled={true} />
+                            {this.state.showHide === '' ? <CheckBox style={styles.tdCheck} value={this.state.residentialChecked} disabled={this.state.residentialDisabled} />: <View />}
                             <Text style={styles.tdTitle}>Residential(Required)</Text>
                             <Text style={styles.tdContent}>{routesData.residentialValue}</Text>
                         </View>
                         <View style={styles.trDiv}>
-                            <CheckBox style={styles.tdCheck} value={this.state.businessChecked} onValueChange={() => this.onBusinessChecked(routesData.businessValue)} />
+                            {this.state.showHide === '' ? <CheckBox style={styles.tdCheck} value={this.state.businessChecked} onValueChange={() => this.onBusinessChecked(routesData.businessValue)} />: <View />}
                             <Text style={styles.tdTitle}>Business</Text>
                             <Text style={styles.tdContent}>{this.state.businessValue}</Text>
                         </View>
                         <View style={styles.trDiv}>
-                            <CheckBox style={styles.tdCheck} value={this.state.poBoxesChecked} onValueChange={() => this.onPoBoxesChecked(routesData.poBoxesValue)} />
+                            {this.state.showHide === '' ? <CheckBox style={styles.tdCheck} value={this.state.poBoxesChecked} onValueChange={() => this.onPoBoxesChecked(routesData.poBoxesValue)} />: <View />}
                             <Text style={styles.tdTitle}>PO Boxes</Text>
                             <Text style={styles.tdContent}>{this.state.poBoxesValue}</Text>
                         </View>

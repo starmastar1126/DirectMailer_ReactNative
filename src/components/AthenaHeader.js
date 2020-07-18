@@ -12,9 +12,12 @@ class AthenaHeader extends React.Component {
     const { headerTitle, navigation, navigate, menu } = this.props;    
     return (  
         <View style={styles.naviContainer}>
-          <TouchableOpacity style={{width: 70}} onPress={() => navigation.navigate(navigate)}>
-              <Text style={[styles.backButton, {paddingLeft: 10}]}>{'<'}&nbsp;Back</Text>
-          </TouchableOpacity>
+          {menu !== true ?     
+            <TouchableOpacity style={{width: 70}} onPress={() => navigation.navigate(navigate)}>
+                <Text style={[styles.backButton, {paddingLeft: 10}]}>{'<'}&nbsp;Back</Text>
+            </TouchableOpacity>
+            :<View style={{width: 50}}/>
+          }      
           <Text style={styles.title}>{headerTitle}</Text>        
           <View style={{width: 50}}>
             {menu === true ?     
