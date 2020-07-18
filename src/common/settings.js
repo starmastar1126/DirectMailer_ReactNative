@@ -23,24 +23,47 @@ export default class AppSettings {
     return value;
   }
 
-  static async getUserEmail() {
-    return this.getValue('chune.user.email');
+  static async getDeviceName() {
+    return this.getValue('chilll.device.name');
   }
-  static setUserEmail(username) {
-    return this.setValue('chune.user.email', username);
+  static setDeviceName(deviceName) {
+    return this.setValue('chilll.device.name', deviceName);
   }
 
-  static async getUserPassword() {
-    return this.getValue('chune.user.password');
+  static getUserId() {
+    return this.getValue('chill.user.id');
   }
-  static setUserPassword(password) {
-    return this.setValue('chune.user.password', password);
+  static setUSerId(UserId) {
+    return this.setValue('chill.user.id', UserId);
+  }
+
+  static getPhoneNumber() {
+    return this.getValue('chill.user.phonenumber');
+  }
+  static setPhoneNumber(phoneNumber) {
+    return this.setValue('chill.user.phonenumber', phoneNumber);
+  }
+
+  static async getLiveName() {
+    return this.getValue('chilll.live.name');
+  }
+  static setLiveName(name) {
+    return this.setValue('chilll.live.name', name);
+  }
+  static async getVODName() {
+    return this.getValue('chilll.vod.name');
+  }
+  static setVODName(name) {
+    return this.setValue('chilll.vod.name', name);
   }
 
   static async appRunOnce() {
-    return this.getBoolean('chune_run_once');
+    return this.getBoolean('chilll.run.once');
   }
   static setAppRunOnce() {
-    return this.setValue('chune_run_once', true);
+    return this.setValue('chilll.run.once', true);
+  }
+  static setChatServer(server) {
+    return this.setValue('currentServer', server)
   }
 }

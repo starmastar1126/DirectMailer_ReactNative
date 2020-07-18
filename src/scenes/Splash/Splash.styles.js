@@ -7,5 +7,10 @@ export default StyleSheet.create({
     ...bs.align.center,
     backgroundColor: colors.background,
   },
-
+  img_splash: {
+    ...bs.layout.absolute_full,
+    width: sizes.width,
+    height: sizes.height,
+    resizeMode: 'cover',
+  },
 });

@@ -1,6 +1,26 @@
 const images = {
-  bg_splash: require('../../res/images/bg_splash.jpg'),
-  ic_bottom_logo: require('../../res/images/ic_bottom_logo.png'),
+  bg_splash: require('@res/images/bg_splash.png'),
+  bg_list_bottom_overlay: require('@res/images/bg_list_bottom_overlay.png'),
+  img_def_song_thumb: require('@res/images/default-song-pic.png'),
+  ic_menu: require('@res/images/ic_menu.png'),
+  ic_header_tv: require('@res/images/ic_header_tv.png'),
+  ic_fugo: require('@res/images/ic_fugo.png'),
+  ic_live_video_on: require('@res/images/ic_live_video_on.png'),
+  ic_live_video_off: require('@res/images/ic_live_video_off.png'),
+  ic_live_audio_on: require('@res/images/ic_live_audio_on.png'),
+  ic_live_audio_off: require('@res/images/ic_live_audio_off.png'),
+  ic_list_play: require('@res/images/ic_list_play.png'),
+  ic_player_profile: require('@res/images/ic_player_profile.png'),
+  ic_player_backward_sm: require('@res/images/ic_player_backward_sm.png'),
+  ic_player_forward_sm: require('@res/images/ic_player_forward_sm.png'),
+  ic_player_pause_sm: require('@res/images/ic_player_pause_sm.png'),
+  ic_player_play_sm: require('@res/images/ic_player_play_sm.png'),
+  ic_player_backward: require('@res/images/ic_player_backward.png'),
+  ic_player_forward: require('@res/images/ic_player_forward.png'),
+  ic_player_pause: require('@res/images/ic_player_pause.png'),
+  ic_player_play: require('@res/images/ic_player_play.png'),
+  ic_profile_play: require('@res/images/ic_profile_play.png'),
+  ic_profile_pause: require('@res/images/ic_profile_pause.png'),
 };
 
 export default images;

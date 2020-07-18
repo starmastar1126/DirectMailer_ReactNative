@@ -1,9 +1,7 @@
-import global from './global';
 import AppSettings from './settings';
-import gAppStates from './states';
+import gstates from './states';
 
 export {
-  global,
   AppSettings,
-  gAppStates,
+  gstates,
 };

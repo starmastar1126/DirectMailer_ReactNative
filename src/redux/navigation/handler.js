@@ -60,4 +60,8 @@ export default {
   navSetParams: (...args) => {
     dispatch(actions.setParams(...args));
   },
+
+  resetTo: (routeName, key, ...args) => {
+    dispatch(actions.reset([{ key, routeName }], 0, ...args));
+  },
 };

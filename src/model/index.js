@@ -1,14 +1,7 @@
-import MDUser from './user';
-import MDComment from './comment';
-import MDCompetitor from './competitor';
-import MDJudge from './judge';
+import MDSong from './song';
+import MDLiveSong from './livesong';
 
 export {
-  MDUser,
-  MDComment,
-  MDCompetitor,
-  MDJudge,
+  MDSong,
+  MDLiveSong,
 };
-
-export * from './clash';
-export * from './judge';

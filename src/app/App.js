@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { Navigators } from '@routes';
 import DropdownAlert from 'react-native-dropdownalert';
-import LoadingHud from 'react-native-lyhud';
+import LoadingHud from '@components/hud';
 import Meteor from 'react-native-meteor';
 import { connect } from 'react-redux';
 import { addNavigationHelpers } from 'react-navigation';
@@ -11,7 +11,7 @@ import { gstyles } from '@theme';
 import styles from './styles';
 import config from './config';
 
-Meteor.connect(config.METEOR_URL);
+Meteor.connect(config.meteor.url);
 
 type AppPropTypes = {
   navApp: *,
@@ -33,7 +33,7 @@ class App extends React.Component<AppPropTypes> {
       if (newDrop.visible) {
         this.dropAlert.alertWithType(newDrop.type, newDrop.title, newDrop.message);
       } else {
-        this.closedAlert;
+        // this.dropAlert.dismiss();
       }
     }
     if (newHud.visible !== oldHud.visible) {
@@ -83,9 +83,9 @@ class App extends React.Component<AppPropTypes> {
   render() {
     return (
       <View style={styles.container} >
-          { this._renderNavigator() }
-          { this._renderDropAlert() }
-          { this._renderHud() }
+        { this._renderNavigator() }
+        { this._renderDropAlert() }
+        { this._renderHud() }
       </View>
     );
   }

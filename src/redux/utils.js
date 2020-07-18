@@ -22,8 +22,8 @@ function handleDispatch(state, params) {
   getStore().dispatch(state);
 }
 
-function shallowEqual(a, b, depth = 0) {
-  if (depth >= 20) return false;
+function shallowEqual(a, b, depth = 0, maxdepth = 20) {
+  if (depth >= maxdepth) return false;
 
   const aIsNull = a === null || a === undefined;
   const bIsNull = b === null || b === undefined;
@@ -44,7 +44,7 @@ function shallowEqual(a, b, depth = 0) {
     if (l !== b.length) return false;
 
     for (let i = 0; i < l; i += 1) {
-      if (shallowEqual(a[i], b[i], depth + 1) === false) return false;
+      if (shallowEqual(a[i], b[i], depth + 1, maxdepth) === false) return false;
     }
     return true;
   } else if (aTypeof === 'object') {
@@ -57,7 +57,7 @@ function shallowEqual(a, b, depth = 0) {
       const keyA = keysA[i];
 
       if (!hasOwn.call(b, keyA)) return false;
-      if (shallowEqual(a[keyA], b[keyA], depth + 1) === false) return false;
+      if (shallowEqual(a[keyA], b[keyA], depth + 1, maxdepth) === false) return false;
     }
     return true;
   } else if (aTypeof === 'function') {

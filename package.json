@@ -1,5 +1,5 @@
 {
-  "name": "BoilerPlate",
+  "name": "ChilllApp",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -7,42 +7,54 @@
     "test": "jest"
   },
   "dependencies": {
-    "moment": "^2.19.1",
+    "babel-polyfill": "^6.26.0",
+    "lodash": "^4.17.4",
+    "moment": "^2.18.1",
     "react": "16.0.0-beta.5",
+    "react-emojione": "^5.0.0",
     "react-native": "0.49.3",
-    "react-native-add-calendar-event": "^0.2.0",
+    "react-native-card-view": "0.0.3",
+    "react-native-contacts": "^1.0.3",
     "react-native-dropdownalert": "^3.1.2",
-    "react-native-fbsdk": "^0.6.3",
-    "react-native-hyperlink": "0.0.11",
+    "react-native-easy-markdown": "^1.1.8",
+    "react-native-fetch-blob": "^0.10.8",
+    "react-native-gifted-chat": "^0.2.9",
+    "react-native-image-picker": "^0.26.7",
+    "react-native-img-cache": "^1.5.0",
     "react-native-keyboard-aware-scroll-view": "^0.3.0",
     "react-native-keyboard-aware-view": "0.0.12",
-    "react-native-linear-gradient": "^2.3.0",
     "react-native-meteor": "^1.1.0",
-    "react-native-popup-dialog": "^0.9.36",
-    "react-native-scrollable-tab-view": "^0.8.0",
-    "react-native-star-rating": "^1.0.8",
-    "react-native-swipe-gestures": "^1.0.2",
+    "react-native-modal": "^4.1.0",
+    "react-native-popup-dialog": "^0.9.35",
+    "react-native-slider": "^0.11.0",
     "react-native-unique-id": "^1.0.4",
-    "react-native-vector-icons": "^4.4.2",
+    "react-native-vector-icons": "^4.3.0",
     "react-native-video": "^2.0.0",
-    "react-navigation": "^1.0.0-beta.13",
-    "react-redux": "^5.0.6",
+    "react-native-wowza-gocoder": "^1.0.5",
+    "react-navigation": "^1.0.0-beta.11",
+    "react-redux": "^5.0.5",
+    "realm": "^2.0.2",
     "redux": "^3.7.2",
-    "redux-persist": "^4.10.1",
-    "redux-thunk": "^2.2.0"
+    "redux-immutable-state-invariant": "^2.1.0",
+    "redux-logger": "^3.0.6",
+    "redux-persist": "^4.8.3",
+    "redux-saga": "^0.16.0",
+    "redux-thunk": "^2.2.0",
+    "remote-redux-devtools": "^0.5.12"
   },
   "devDependencies": {
-    "babel-jest": "21.2.0",
-    "babel-preset-react-native": "4.0.0",
-    "jest": "21.2.1",
-    "react-test-renderer": "16.0.0-beta.5"
+    "babel-eslint": "^7.2.1",
+    "babel-jest": "20.0.3",
+    "babel-preset-react-native": "2.1.0",
+    "eslint": "^3.18.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3",
+    "jest": "20.0.4",
+    "react-test-renderer": "16.0.0-alpha.12"
   },
   "jest": {
     "preset": "react-native"
-  },
-  "rnpm": {
-    "assets": [
-      "./res/fonts"
-    ]
   }
 }

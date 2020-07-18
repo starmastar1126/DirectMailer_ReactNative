@@ -1,4 +1,4 @@
-import { Dimensions, PixelRatio } from 'react-native';
+import { Dimensions } from 'react-native';
 import consts from './consts';
 
 const window = Dimensions.get('window');
@@ -44,10 +44,41 @@ function getVertScale() {
 
 const hscale = getHorzScale();
 const vscale = getVertScale();
-const wrate6 = screenWidth / 320; // 375;
-const hrate6 = screenHeight / 568; // 667;
+let wrate6 = screenWidth / 320; // 375;
+let hrate6 = screenHeight / 568; // 667;
+const isPad = hscale >= 4;
+
+if (screenWidth >= 600) {
+  wrate6 = 1.5 * screenWidth / 768;
+}
+if (screenHeight >= 960) {
+  hrate6 = 1.5 * screenHeight / 1024;
+}
 
 const sizes = {
+  resize_value6(sz, horz = true, floor = true) {
+    const rate = horz === true ? wrate6 : hrate6;
+    if (floor) return Math.floor(rate * sz);
+    return rate * sz;
+  },
+
+  // horz: 0: 320, 1: 375, 2: 414, 3: 480, 4: 600, 5:  768, 6: 1024
+  // vert: 0: 480, 1: 568, 2: 667, 3: 736, 4: 960, 5: 1024, 6: 1280
+  select_value(values, horz = true) {
+    let scale = horz === true ? hscale : vscale;
+    while (scale >= 0) {
+      if (values[scale]) return values[scale];
+      scale -= 1;
+    }
+
+    scale = horz === true ? hscale : vscale;
+    while (scale <= 10) {
+      if (values[scale]) return values[scale];
+      scale += 1;
+    }
+    return 0;
+  },
+
   // Window Dimensions
   screen: {
     height: screenHeight,
@@ -60,29 +91,57 @@ const sizes = {
     widthThreeQuarters: screenWidth * 0.75,
   },
 
-  navigationBarHeight: consts.ios ? 64 : 50,
   statusBarHeight,
-  editHeight: consts.phone ? 44 : 50,
-
-  bottom: {
-    logoSize: 52,
-    logoImageSize: 32,
-    barHeight: 28,
-    barTop: 12, // (logoSize - barHeight) / 2
-    marginBottom: 14, // barHeight / 2
-    searchHeight: 26,
-  },
-
-  resize_value6(sz, horz = true) {
-    const rate = horz === true ? wrate6 : hrate6;
-    return PixelRatio.roundToNearestPixel(sz * rate);
-  },
-  // horz: 0: 320, 1: 375, 2: 414, 3: 480, 4: 600, 5:  768, 6: 1024
-  // vert: 0: 480, 1: 568, 2: 667, 3: 736, 4: 960, 5: 1024, 6: 1280
-  select_value(values, horz = true) {
-    const scale = horz === true ? hscale : vscale;
-    return values[scale];
-  },
 };
 
+const itemsPerRow = isPad ? 5 : 3;
+const gridSize = Math.floor(sizes.screen.width / itemsPerRow) - 1;
+sizes.list = {
+  itemsPerRow,
+};
+
+sizes.header = {
+  height: statusBarHeight + sizes.resize_value6(70),
+  height1: statusBarHeight + sizes.resize_value6(50),
+};
+
+sizes.selfie = {
+  height: sizes.screen.height,
+  captureBtnSize: 80,
+  captureBtnInnerSize: 64,
+};
+
+sizes.profile = {
+  titleHeight: sizes.resize_value6(60),
+  sliderHeight: sizes.resize_value6(50),
+  animHeight: sizes.screen.height - sizes.header.height1,
+  height: sizes.screen.height - sizes.header.height,
+};
+sizes.profile.thumbHeight = sizes.profile.height - sizes.profile.titleHeight - sizes.profile.sliderHeight;
+
+sizes.expanded = {
+  titleHeight: sizes.resize_value6(56),
+  controlHeight: sizes.resize_value6(64),
+  thumbHeight: sizes.screen.width,
+};
+const temp = sizes.header.height1 + sizes.expanded.titleHeight + sizes.expanded.controlHeight;
+if (temp + sizes.expanded.thumbHeight > sizes.screen.height - gridSize) {
+  sizes.expanded.thumbHeight = sizes.screen.height - gridSize - temp;
+}
+if (sizes.expanded.thumbHeight < sizes.screen.height / 3) {
+  sizes.expanded.thumbHeight = Math.floor(sizes.screen.height / 3);
+}
+sizes.expanded.height = sizes.expanded.titleHeight + sizes.expanded.controlHeight + sizes.expanded.thumbHeight;
+
+sizes.collapsed = {
+  thumbSize: sizes.resize_value6(74),
+};
+sizes.collapsed.height = sizes.collapsed.thumbSize;
+
+sizes.list.height = sizes.screen.height - sizes.header.height1 - sizes.collapsed.height;
+
+sizes.selfie.animHeight = sizes.profile.height;
+sizes.profile.animHeight = sizes.screen.height - sizes.header.height1;
+sizes.expanded.animHeight = sizes.expanded.height - sizes.collapsed.height;
+console.log(sizes);
 export default sizes;

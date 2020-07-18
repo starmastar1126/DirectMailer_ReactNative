@@ -142,8 +142,6 @@ export default {
     match_parent: {
       flex: 1,
       alignSelf: 'stretch',
-        alignItems:'center',
-        justifyContent:'center'
     },
     absolute_full: {
       position: 'absolute',
@@ -165,37 +163,37 @@ export default {
 
   font: {
     normal: {
-      fontFamily: 'Open Sans',
+      fontFamily: 'Montserrat',
       fontWeight: '400',
     },
     bold: {
-      fontFamily: 'Open Sans',
+      fontFamily: 'Montserrat',
       fontWeight: '700',
     },
     semibold: {
-      fontFamily: 'Open Sans',
+      fontFamily: 'Montserrat',
       fontWeight: '600',
     },
     light: {
-      fontFamily: 'Open Sans',
+      fontFamily: 'Montserrat',
       fontWeight: '200',
     },
   },
 
   text_normal: {
-    fontFamily: 'Open Sans',
+    fontFamily: 'Montserrat',
     fontWeight: '400',
   },
   text_bold: {
-    fontFamily: 'Open Sans',
+    fontFamily: 'Montserrat',
     fontWeight: '700',
   },
   text_semibold: {
-    fontFamily: 'Open Sans',
+    fontFamily: 'Montserrat',
     fontWeight: '600',
   },
   text_light: {
-    fontFamily: 'Open Sans',
+    fontFamily: 'Montserrat',
     fontWeight: '200',
   },
   text_xls: {

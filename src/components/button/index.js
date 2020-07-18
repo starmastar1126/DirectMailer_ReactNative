@@ -2,9 +2,31 @@ import React from 'react';
 import { TouchableOpacity, Image, Text } from 'react-native';
 import { FAIcon } from '../icons';
 
-const Button = props => (
-  <TouchableOpacity {...props} />
-);
+class Button extends React.Component {
+
+  state = {
+    lastPress: 0,
+  }
+
+  _onPress = () => {
+    const curTime = new Date().getTime();
+    const delta = curTime - this.state.lastPress;
+    if (delta < 300) {
+      this.props.onDoublePress && this.props.onDoublePress();
+      this.state.lastPress = 0;
+    } else {
+      this.state.lastPress = curTime;
+      this.props.onPress && this.props.onPress();
+    }
+  }
+
+  render() {
+    const { onPress, ...otherProps } = this.props;
+    return (
+      <TouchableOpacity {...otherProps} onPress={this._onPress} />
+    );
+  }
+}
 
 // Button.ViewPropTypes = {
 //   ...TouchableOpacity.ViewPropTypes,
@@ -12,6 +34,7 @@ const Button = props => (
 Button.defaultProps = {
   ...TouchableOpacity.defaultProps,
   activeOpacity: 0.7,
+  onDoublePress: () => {},
 };
 
 const ImageButton = ({

@@ -11,25 +11,25 @@ const handler = {
       dispatch(actions.drop.hide(...args));
     },
     showSuccess: (...args) => {
-      handler.show(AlertType.success, ...args);
+      handler.drop.show(AlertType.success, ...args);
     },
     showError: (...args) => {
-      handler.show(AlertType.error, ...args);
+      handler.drop.show(AlertType.error, ...args);
     },
     showInfo: (...args) => {
-      handler.show(AlertType.info, ...args);
+      handler.drop.show(AlertType.info, ...args);
     },
     showWarn: (...args) => {
-      handler.show(AlertType.warn, ...args);
+      handler.drop.show(AlertType.warn, ...args);
     },
   },
 
-  loading: {
+  hud: {
     show: (...args) => {
-      dispatch(actions.loading.show(...args));
+      dispatch(actions.hud.show(...args));
     },
     hide: (...args) => {
-      dispatch(actions.loading.hide(...args));
+      dispatch(actions.hud.hide(...args));
     },
   },
 };

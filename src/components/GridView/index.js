@@ -1,129 +1,143 @@
-/* eslint-disable no-use-before-define */
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import { global as g } from '@common';
-import { basestyles as bs, colors } from '@theme';
-import { Button } from '../Button';
+import { View, ListView, Dimensions, StyleSheet } from 'react-native';
+import { shallowEqual } from '@redux';
+
+const { width } = Dimensions.get('window');
+
+// http://stackoverflow.com/questions/8495687/split-array-into-chunks
+// I don't see the reason to take lodash.chunk for this
+const chunk = (arr, n) =>
+  Array.from(Array(Math.ceil(arr.length / n)), (_, i) => arr.slice(i * n, (i * n) + n));
+
+const mapValues = (obj, callback) => {
+  const newObj = {};
+
+  Object.keys(obj).forEach((key) => {
+    newObj[key] = callback(obj[key]);
+  });
+
+  return newObj;
+};
+
+const styles = StyleSheet.create({
+  list: {
+    alignSelf: 'stretch',
+    flex: 1,
+  },
+  row: {
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    flex: 1,
+  },
+});
 
 export default class GridView extends Component {
-  static propTypes = {
-    ...View.propTypes,
-    rowCount: React.PropTypes.number,
-    colCount: React.PropTypes.number,
-  };
+
+  // static propTypes = {
+  //   itemsPerRow: React.PropTypes.number,
+  //   itemHasChanged: React.PropTypes.func,
+  //   renderItem: React.PropTypes.func.isRequired,
+  //   renderPlaceholder: React.PropTypes.func,
+  //   data: React.PropTypes.arrayOf(React.PropTypes.any).isRequired,
+  //   sections: React.PropTypes.bool,
+  //   listStyle: React.PropTypes.any,
+  //   rowStyle: React.PropTypes.any,
+  // }
 
   static defaultProps = {
-    rowCount: 2,
-    colCount: 6,
-  };
-
-  state = {
-    frame: { width: 1, height: 1 },
+    sections: false,
+    itemsPerRow: 3,
+    itemHasChanged: (r1, r2) => r1 !== r2,
+    renderItem: () => null,
+    renderPlaceholder: () => null,
+    listStyle: styles.list,
+    rowStyle: styles.row,
   }
 
-  _calcGridSize = (frame) => {
-    this.itemSize = Math.floor(frame.width / this.props.colCount, 10);
-    this.padCount = Math.floor(frame.width - this.itemSize * this.props.colCount);
+  constructor(props) {
+    super(props);
+
+    this.state = {
+    };
+
+    this.ds = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1.some((e, i) => props.itemHasChanged(e, r2[i])),
+      sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
+    });
+    this._buildDataSource([], props.sections);
   }
 
-  _onLayout = (event) => {
-    const curFrame = this.state.frame;
-    const newFrame = event.nativeEvent.layout;
-    if (!g.isEqualFrame(curFrame, newFrame)) {
-      this._calcGridSize(newFrame);
-      if (newFrame.height <= 2) {
-        newFrame.height = this.props.rowCount * this.itemSize;
-      }
-      if (newFrame.height <= 2) {
-        newFrame.height = 1;
-      }
-      this.setState({ frame: newFrame });
+  componentWillReceiveProps(nextProps) {
+    this._buildDataSource(nextProps.data, nextProps.sections);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    const { data: oldData, ...oldProps } = this.props;
+    const { data: newData, ...newProps } = nextProps;
+
+    if (oldData !== newData || ((oldData && oldData.length) || 0) !== ((newData && newData.length) || 0)) {
+      return true;
+    }
+    if (!shallowEqual(oldProps, newProps, 0, 2)) {
+      return true;
+    }
+    if (!shallowEqual(nextState, this.state, 0, 2)) {
+      return true;
+    }
+    return false;
+  }
+
+  _buildDataSource(data, section) {
+    if (section === true) {
+      this.state.dataSource = this.ds.cloneWithRowsAndSections(this._prepareSectionedData(data));
+    } else {
+      this.state.dataSource = this.ds.cloneWithRows(this._prepareData(data));
     }
   }
 
-  _renderCell(row, col) {
-    const num = row * this.props.colCount + col + 1;
-    return (
-      <Button
-        key={`cell_${row}_${col}`}
-        style={[
-          styles.cell,
-          { height: this.itemSize },
-          col !== 0 && { borderLeftWidth: 0 },
-          row !== 0 && { borderTopWidth: 0 },
-        ]}
-        onPress={this.props.onPressGrid.bind(this, num)}
-      >
-        <Text style={styles.txt_grid_num}>{num}</Text>
-        <View style={styles.cell_content} >
-          { this.props.renderCell ? this.props.renderCell : null }
-        </View>
-      </Button>
-    );
+  _prepareSectionedData = (data) => {
+    const preparedData = mapValues(data, vals => this._prepareData(vals));
+    return preparedData;
   }
 
-  _renderCols(row) {
-    const cols = [];
-    for (let col = 0; col < this.props.colCount; col += 1) {
-      cols.push(this._renderCell(row, col));
-    }
-    return cols;
-  }
-
-  _renderRows() {
-    const rows = [];
-    for (let row = 0; row < this.props.rowCount; row += 1) {
-      rows.push(
-        <View key={`row_${row}`} style={styles.row} >
-          { this._renderCols(row) }
-        </View>,
-      );
+  _prepareData = (data) => {
+    const rows = chunk(data, this.props.itemsPerRow);
+    if (rows.length) {
+      const lastRow = rows[rows.length - 1];
+      for (let i = 0; lastRow.length < this.props.itemsPerRow; i += 1) {
+        lastRow.push(null);
+      }
     }
     return rows;
   }
 
-  render() {
-    const { style, ...otherProps } = this.props;
-    const { frame } = this.state;
-    const rows = this._renderRows();
+  _renderPlaceholder = i =>
+    <View key={i} style={{ width: width / this.props.itemsPerRow }} />
 
+  _renderRow = (rowData, section, row) =>
+    <View style={this.props.rowStyle}>
+      {rowData.map((item, col) => {
+        if (item) {
+          return this.props.renderItem(item, row, col, section);
+        }
+        // render a placeholder
+        if (this.props.renderPlaceholder) {
+          return this.props.renderPlaceholder(row, col, section);
+        }
+        return this._renderPlaceholder(col);
+      })}
+    </View>
+
+  render() {
+    const { data, sections, itemsPerRow, listStyle, rowStyle, ...otherProps } = this.props;
     return (
-      <View {...otherProps} style={style} onLayout={this._onLayout} >
-        <LinearGradient
-          start={{ x: 0.0, y: 0.0 }} end={{ x: 1.0, y: 0.0 }}
-          colors={colors.tune.bg_grid_gradient}
-          style={{ width: frame.width, height: frame.height }}
-        >
-          { rows }
-        </LinearGradient>
-      </View>
+      <ListView
+        {...otherProps}
+        style={listStyle}
+        dataSource={this.state.dataSource}
+        renderRow={this._renderRow}
+      />
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  row: {
-    ...bs.layout.row,
-    ...bs.align.self.stretch,
-    backgroundColor: 'transparent',
-  },
-  cell: {
-    ...bs.align.center,
-    flex: 1,
-    borderColor: colors.tune.grid_border,
-    borderWidth: 1,
-  },
-  cell_content: {
-    ...bs.layout.absolute_full,
-    ...bs.align.center,
-  },
-  txt_grid_num: {
-    ...bs.font.bold,
-    fontSize: 30,
-    color: colors.tune.grid_text,
-  },
-});

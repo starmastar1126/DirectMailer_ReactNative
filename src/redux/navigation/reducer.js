@@ -3,16 +3,20 @@ import { Navigators } from '@routes';
 
 import navkeys from './navkeys';
 
-function generateReducer(Navigator, navkey) {
+function generateReducer(Navigator, state, navkey) {
   const getState = Navigator.router.getStateForAction;
-  const initState = getState(Navigator.router.getActionForPathAndParams());
+  const initState = state || getState(Navigator.router.getActionForPathAndParams());
   return navigationReducer({ ...initState, navkey }, getState);
 }
 
-const navApp = generateReducer(Navigators.App, navkeys.app);
-// const navClash = generateReducer(Navigators.Clash, navkeys.clash);
+// const appState = {
+//   index: 0,
+//   routes: [
+//     { routeName: 'splash', key: 'app.splash' },
+//   ],
+// };
+const navApp = generateReducer(Navigators.App, null, navkeys.app);
 
 export default {
   navApp,
-  // navClash,
 };

@@ -26,3 +26,9 @@ nowPlayingEmitter.addListener('onRemotePlayEvent', (event) => {
     // actions.player.prevSong();
   }
 });
+
+export function setAppFullscreen(fullscreen) {
+  if (NativeAppBridge.setFullscreen) {
+    NativeAppBridge.setFullscreen(fullscreen);
+  }
+}

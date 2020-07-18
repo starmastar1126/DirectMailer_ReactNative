@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { View, TextInput } from 'react-native';
 import { colors, gstyles } from '@theme';
 
+import PropTypes from 'prop-types';
+
 const StyleSheetPropType = require('StyleSheetPropType');
 const TextStylePropTypes = require('TextStylePropTypes');
 
@@ -11,7 +13,7 @@ export default class MLTextInput extends Component {
 
   static propTypes = {
     ...TextInput.props,
-    underlineColorAndroid: React.PropTypes.string,
+    underlineColorAndroid: PropTypes.string,
     textStyle: stylePropType,
     textExtraStyle: stylePropType,
     normalStyle: stylePropType,
@@ -22,8 +24,8 @@ export default class MLTextInput extends Component {
     fillExtraStyle: stylePropType,
     emptyStyle: stylePropType,
     emptyExtraStyle: stylePropType,
-    activePlaceholderColor: React.PropTypes.string,
-    emptyPlaceholderColor: React.PropTypes.string,
+    activePlaceholderColor: PropTypes.string,
+    emptyPlaceholderColor: PropTypes.string,
   }
   static defaultProps = {
     ...TextInput.defaultProps,
@@ -114,8 +116,7 @@ export default class MLTextInput extends Component {
 
     return (
       <View
-        style={[normalStyle, normalExtraStyle,
-          this.state.style, this.state.extraStyle, style]}
+        style={[normalExtraStyle, this.state.style, this.state.extraStyle, style, normalStyle]}
       >
         <TextInput
           ref={(node) => { this._edit = node; }}

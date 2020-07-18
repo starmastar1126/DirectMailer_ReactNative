@@ -25,7 +25,7 @@ export default function (state = initialState, action) {
       };
 
     case ActionTypes.PLAY:
-      if (state.playing || state.loading) {
+      if (state.playing) {
         return state;
       }
       return {
