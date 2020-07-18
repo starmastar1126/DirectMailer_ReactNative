@@ -3,25 +3,21 @@ import {StyleSheet, View, Text, TouchableOpacity, Image} from 'react-native';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { Divider } from 'react-native-elements';
 
-import Global from '../assets/global/Styles';
-import accountIcon from '../assets/images/account_icon.png'
-import backIcon from '../assets/images/back_icon.png';
+import Global from '../views/Global';
+import accountIcon from '../assets/images/person_icon.png'
 
 
 class AthenaHeader extends React.Component {
   render() {
-    const { headerTitle, navigation, navigate, backBtn, accountBtn } = this.props;    
+    const { headerTitle, navigation, navigate, menu } = this.props;    
     return (  
         <View style={styles.naviContainer}>
-          {backBtn === true ?     
-            <TouchableOpacity style={{width: 70, marginLeft: 10}} onPress={() => navigation.navigate(navigate)}>
-                <Image source={backIcon} style={{width: 30, height: 30}} />
-            </TouchableOpacity>
-            :<View style={{width: 50}}/>
-          }      
+          <TouchableOpacity style={{width: 70}} onPress={() => navigation.navigate(navigate)}>
+              <Text style={[styles.backButton, {paddingLeft: 10}]}>{'<'}&nbsp;Back</Text>
+          </TouchableOpacity>
           <Text style={styles.title}>{headerTitle}</Text>        
           <View style={{width: 50}}>
-            {accountBtn === true ?     
+            {menu === true ?     
               <Menu>
                 <MenuTrigger><Image source={accountIcon} style={{width: 30, height: 30}} /></MenuTrigger>
                 <MenuOptions>
@@ -42,22 +38,24 @@ class AthenaHeader extends React.Component {
 
 const styles = StyleSheet.create({
   naviContainer: {
-      // position: 'absolute',
-      width: Global.VW * 100, height: 50, 
-      // top: 0, left: 0,
       flexDirection: 'row', 
       justifyContent: 'space-between', 
       alignItems: 'center',
-      backgroundColor: Global.HEADER_COLOR, 
-      // shadowColor: Global.BLACK_COLOR,
-      // shadowOffset: { width: 0, height: 5 },
-      // shadowOpacity: 0.58,
-      // shadowRadius: 10,
-      // elevation: 10,
+      height: 50, 
+      backgroundColor: Global.RIGHT_BLUE_COLOR, 
+      borderBottomWidth: 1,
+      borderBottomColor: '#DDDDDD',  
+  },
+  backButton: {
+      backgroundColor: Global.RIGHT_BLUE_COLOR, 
+      color: Global.FORE_COLOR, 
+      fontSize: 15, 
+      // fontWeight: Global.FONT_BOLD
   },
   title: {
+      backgroundColor: Global.RIGHT_BLUE_COLOR, 
       color: Global.FORE_COLOR, 
-      fontSize: 20, 
+      fontSize: 18, 
       fontWeight: Global.FONT_BOLD
   },
 });

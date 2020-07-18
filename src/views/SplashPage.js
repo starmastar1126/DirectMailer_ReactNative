@@ -1,10 +1,13 @@
 import React from 'react';
-import {StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import Swiper from "react-native-web-swiper";
 
-import Global from '../assets/global/Styles';
-import splashIcon1 from '../assets/images/splash1_icon.png';
-import splashIcon2 from '../assets/images/splash2_icon.png';
-import splashIcon3 from '../assets/images/splash3_icon.png';
+import Global from './Global';
+import SplashOne from '../components/SplashOne';
+
+import splashIcon1 from '../assets/images/step1_splash_icon3.png';
+import splashIcon2 from '../assets/images/step2_splash_icon3.png';
+import splashIcon3 from '../assets/images/step3_splash_icon3.png';
 
 const splashData = [
   { index: 1, title: 'Step 1\nTarget the right prospects', image: splashIcon1, description: 'Search for the best prospects using free,\npowerful geographic and demographic filters\nsuch as age, income, and drive-time\nfrom your business', button: false, buttonTitle: '' },
@@ -13,33 +16,30 @@ const splashData = [
 ]
 
  class SplashPage extends React.Component {
-  static navigationOptions = { header: null };
-  onClick = () => {
-    this.props.navigation.navigate("SelectRoutesPage")
-  }
+  static navigationOptions = {
+    header: null
+  };
+  onButtonClick = () => {
+    this.props.navigation.navigate("GetStartPage")
+  } 
   render() {
     return (
-      <TouchableOpacity style={styles.container} onPress={this.onClick}>
-        <View>
-          <View style={{height: '5%'}}/>
-          <View style={{height: '30%', justifyContent: 'center', alignItems: 'center'}}>
-            <Image source={splashIcon1} style={{width: 50, height: 50}}></Image>
-            <Text style={{marginTop: 10, fontFamily: "cac_champagne", fontSize: 18, fontWeight: 'bold', textAlign: 'center', color: Global.WHITE_COLOR}}>{splashData[0].title}</Text>
-            <Text style={{marginTop: 5, fontSize: 11, textAlign: 'center', color: Global.WHITE_COLOR}}>{splashData[0].description}</Text>
-          </View>
-          <View style={{height: '30%', justifyContent: 'center', alignItems: 'center'}}>
-            <Image source={splashIcon2} style={{width: 50, height: 50}}></Image>
-            <Text style={{marginTop: 10, fontSize: 18, fontWeight: 'bold',textAlign: 'center', color: Global.WHITE_COLOR}}>{splashData[1].title}</Text>
-            <Text style={{marginTop: 5, fontSize: 11, textAlign: 'center', color: Global.WHITE_COLOR}}>{splashData[1].description}</Text>
-          </View>
-          <View style={{height: '30%', justifyContent: 'center', alignItems: 'center'}}>
-            <Image source={splashIcon3} style={{width: 50, height: 50}}></Image>
-            <Text style={{marginTop: 10, fontSize: 18, fontWeight: 'bold',textAlign: 'center', color: Global.WHITE_COLOR}}>{splashData[2].title}</Text>
-            <Text style={{marginTop: 5, fontSize: 11, textAlign: 'center', color: Global.WHITE_COLOR}}>{splashData[2].description}</Text>
-          </View>
-          <View style={{height: '5%'}}/>
-        </View>
-      </TouchableOpacity>
+      <View style={styles.container}>
+        <Swiper>
+          {splashData.map((splashItem, splashKey) => {
+            return(  
+              <SplashOne
+                title={splashItem.title}
+                image={splashItem.image}
+                description={splashItem.description}
+                button={splashItem.button}
+                buttonTitle={splashItem.buttonTitle}
+                onClick={this.onButtonClick}
+              />
+            );}                      
+          )}   
+        </Swiper>
+      </View>
     );
   }
 }
@@ -47,9 +47,7 @@ const splashData = [
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Global.SPLASH_COLOR,
+    backgroundColor: Global.SPLASH_COLOR
   }
 });
 
