@@ -1,0 +1,48 @@
+{
+  "name": "BoilerPlate",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "moment": "^2.19.1",
+    "react": "16.0.0-beta.5",
+    "react-native": "0.49.3",
+    "react-native-add-calendar-event": "^0.2.0",
+    "react-native-dropdownalert": "^3.1.2",
+    "react-native-fbsdk": "^0.6.3",
+    "react-native-hyperlink": "0.0.11",
+    "react-native-keyboard-aware-scroll-view": "^0.3.0",
+    "react-native-keyboard-aware-view": "0.0.12",
+    "react-native-linear-gradient": "^2.3.0",
+    "react-native-meteor": "^1.1.0",
+    "react-native-popup-dialog": "^0.9.36",
+    "react-native-scrollable-tab-view": "^0.8.0",
+    "react-native-star-rating": "^1.0.8",
+    "react-native-swipe-gestures": "^1.0.2",
+    "react-native-unique-id": "^1.0.4",
+    "react-native-vector-icons": "^4.4.2",
+    "react-native-video": "^2.0.0",
+    "react-navigation": "^1.0.0-beta.13",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "redux-persist": "^4.10.1",
+    "redux-thunk": "^2.2.0"
+  },
+  "devDependencies": {
+    "babel-jest": "21.2.0",
+    "babel-preset-react-native": "4.0.0",
+    "jest": "21.2.1",
+    "react-test-renderer": "16.0.0-beta.5"
+  },
+  "jest": {
+    "preset": "react-native"
+  },
+  "rnpm": {
+    "assets": [
+      "./res/fonts"
+    ]
+  }
+}
