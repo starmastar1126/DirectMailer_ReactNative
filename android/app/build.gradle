@@ -102,7 +102,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.directmailer"
+        applicationId "com.athenaproject"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

@@ -1,4 +1,4 @@
-package com.directmailer;
+package com.athenaproject;
 
 import android.app.Application;
 

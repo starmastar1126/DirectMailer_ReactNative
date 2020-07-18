@@ -1,3 +1,3 @@
-rootProject.name = 'directmailer'
+rootProject.name = 'AthenaProject'
 
 include ':app'
