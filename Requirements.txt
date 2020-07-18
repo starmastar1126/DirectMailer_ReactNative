@@ -1,0 +1,66 @@
+﻿
+
+================
+Building the app is not hard. Understanding the logistics and mechanics of it is. We do not do printing services. So the question is, how do we fit that in? So when a user picks their target area using EDDM API/Leaflet.api , it can pass the order onto a printing service (i.e. PrintChomp API). And maybe they finish the rest of the job for the customer from printing to giving the order to the post office to send out. Does that make sense?
+
+I wonder how AmazingMail is doing it... are they doing everything from start to finish themselves (i.e. printing too); or do they pass the order to someone else to finish.
+
+https://support.primoprint.com/eddm-every-door-direct-mail/full-service-eddm-vs-print-only-eddm
+
+https://www.printchomp.com/api
+
+
+First, it's important to understand the workflow and logistics and what happens behind the scenes.
+
+We are only providing the app where users can go through the workflows; but we do not do any printing. The goal is to not have too many staff or hands-on where process can be streamlined. So the question becomes:
+a) Can we pass the order onto a printing service (i.e. Printchomp API, PrimoPrint) where they do printing and delivery on our behalf? This way we don't have any staff and order gets handled by them. Yet we still make money by being middle man.
+b) Alternatively, when they submit their files (postcard/flyer) we would have to process their print order with a printing service. The printing service would send it to us where we would then have to send to postoffice to go out. This would require staff and too many unnecessary back and forths :(
+
+
+
+How can we make this seamless?
+
+Full Service EDDM® vs Print Only EDDM®
+https://support.primoprint.com
+
+https://www.printchomp.com/api
+https://www.printchomp.com
+we are trying to do what they're doing but in a mobile. We don't do printing so have to find a way around that.
+So the options are:
+
+a) We hook up to PrintChomp API where they may be able to serve as our printing service and they can deliver it behind the scenes. The user will think it's us. We will somehow have to charge more so we make it worth while.
+b) Or, we have the customer do everything like Amazing Mail (as I showed in video) and the order gets sent to our local printer service to provide it to us directly. We will then have to send orders to the post offices across the country. It's more work for us this way but this is alternative.
+
+We can either have the order go directly to another printing service where they will handle rest of order for us (and we make $ off on top of it) and no worries; or have to do things in-house.
+
+It's deciding what's the best, simplest, quickest, less headache option.
+Basically we want to do what AmazingMail does but in a mobile app (except we don't have an in-house printing service). Please play with https://amazingmailing.eddmsite.com too
+
+Before we start the project, it is important to understand the gameplan and logistics of how we can execute this. I do not have a printing service; therefore, we need to figure out strategically how to employ and achieve our objectives of allowing users to pick a geographic target on a map, selecting routes, uploading their flyer/postcard and having it printed for delivery. We have to identify the players in the game, this includes:
+a) us (middle man between B and C)
+b) printing service
+c) post office
+
+Obviously there is "printing fees" (by the printing company) and "shipping fees" (by the US Postal Service). Where we get stuck is... who will print it and how to handle the payment processing and execution? So there are a few approaches that come to mind:
+a) find an API (i.e. PrintChomp API) where we can pass the order onto and they can print the flyers/postcards on our behalf and do the mailing for us. In essence, they are doing everything from start to finish, except we are finding and sending orders to them from a mobile app. For instance, PLAYER B might charge $900 to do both printing service for flyers/postcards and paying PLAYER C to deliver them; then we would have to charge $1000 to make a $100 profit. We would have to factor in the code where the order shows $1000 but we would have to make a payment to Printchomp or printing service for $900.
+b) Charge $1000 but send the order to PLAYER B (printing service) where they print and mail it to us. We would have to pay PLAYER B (i.e. $500) to receive the files. And then once we receive the printed files, we would have to send it over to PLAYER C ($400). Very similar to approach A except the printing service is just printing for us and we would have to send order to them, receive it, and then send it then to PLAYER C along with $400 to mail out. Requires a little more steps and unnecessary exchanges.
+c) Any ideas? Ideally we want to cut down the number of steps WE physically have to do and maximize the profit margins. Please look into solutions to streamline this and make it seamless.
+
+Other sides to get ideas: https://support.primoprint.com/eddm-every-door-direct-mail/full-service-eddm-vs-print-only-eddm
+https://www.printchomp.com/api
+https://www.usps.com/business/web-tools-apis/documentation-updates.htm?
+https://printerdirectory.usps.com/listing/#/
+https://www.eddmexperts.com/direct-mail-marketing/direct-mail-api/
+
+Based on what we're trying to accomplish, using your past experience, what do you recommend an approach and solution would be for our project?
+
+https://amazingmailing.eddmsite.com
+https://amazingmailing.eddmsite.com
+
+Full Service EDDM® vs Print Only EDDM®
+https://support.primoprint.com
+================
+So the end of deep investigation we've confirmed that USPS and Click2Mail will be used for project
+Also Stripe will be used for payment
+Also they mentioned the situation that user want to pay from PayPal
+
