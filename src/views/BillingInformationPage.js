@@ -1,17 +1,21 @@
 import React from 'react';
 import {StyleSheet, ScrollView, View, Text, CheckBox} from 'react-native';
-import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
-import DatePicker from 'react-native-datepicker';
+import DatePicker from 'react-native-datepicker'; 
+import RadioGroup from 'react-native-radio-buttons-group';
 
-import Global from '../views/Global';
-import AthenaHeader from '../components/AthenaHeader';
-import AthenaStepIndicator from '../components/AthenaStepIndicator';
-import AthenaCard from '../components/AthenaCard';
-import AthenaCardTitle from '../components/AthenaCardTitle';
-import AthenaCardContent from '../components/AthenaCardContent';
+import Global from '../assets/global/Styles';
+import Header from '../components/Header';
+import StepIndicator from '../components/StepIndicator';
+import Dialog from '../components/Dialog';
+import DialogHeader from '../components/DialogHeader';
+import DialogContent from '../components/DialogContent';
+import DialogFooter from '../components/DialogFooter';
+import Card from '../components/Card';
+import CardHeader from '../components/CardHeader';
+import CardContent from '../components/CardContent';
+import Button from '../components/Button';
+import SelectBox from '../components/SelectBox';
 import AthenaTextInput from '../components/AthenaTextInput';
-import AthenaSelect from '../components/AthenaSelect';
-import AthenaButton from '../components/AthenaButton';
 
 const textData = [
     { index: 1, title: '', placeholder: 'First Name', keyboardType: '' },
@@ -26,14 +30,20 @@ const textData = [
 ]
 
 var paymentList = [
-    {label: 'xxxx xxxx xxxx 4252', value: 0 },
-    {label: 'xxxx xxxx xxxx 6502', value: 1 },
-    {label: 'xxxx xxxx xxxx 3125', value: 2 }
-];
+    {label: 'xxxx xxxx xxxx 4252', value: 1, color: Global.DIALOG_COLOR, size: 22, selected: false},
+    {label: 'xxxx xxxx xxxx 6502', value: 2, color: Global.DIALOG_COLOR, size: 22, selected: false},
+    {label: 'xxxx xxxx xxxx 3125', value: 3, color: Global.DIALOG_COLOR, size: 22, selected: false},
+]
+
 var  verificationList = [
-    {label: 'To the best of my knowledge, no re-\nsidents/businesses have opted-out\n from receiving my marketing colla-\nteral.', value: 0 },
-    {label: 'Some residents/businesses have op\nted-out from receiving my marketing\n collateral. (I will provide a list of th-\nese opt-outs)', value: 1 }
+    {label: 'To the best of my knowledge, no residents/businesses have opted\n-out from receiving my marketing\ncollateral.', value: 1, color: Global.DIALOG_COLOR, size: 22, selected: false},
+    {label: 'Some residents/businesses have opted-out from receiving my mar-\nkneting collateral. (I will provide a\nlist of these opt-outs)', value: 2, color: Global.DIALOG_COLOR, size: 22, selected: false}
 ]; 
+
+var priceData = {
+    subTotalPrice: 467.90,
+    shippingPrice: 0    
+}
 
 const stateList = [
     { value: 0, label: "State"},
@@ -93,43 +103,21 @@ const stateList = [
 class BillingInformationPage extends React.Component {  
     constructor (props) {
         super(props);
-        this.state = { date: "05-2016", stateOne: 0, checked: false };
-    }       
+        this.state = { dateValue: "11-26-2020", stateValue: 0, paymentValue: 1, verificationValue: 1, checked: false, paymentVisible: false };
+    }   
     static navigationOptions = ({navigation}) => {
-        return {header:(<AthenaHeader headerTitle="Billing Information" navigation={navigation} navigate="ReviewOrderPage" menu={false} />)}
-    }
-    onCompleteClick = () => {
-        this.props.navigation.navigate("GetStartPage");
-    };
-    showPicker = ()=> {
-        const { startYear, endYear, selectedYear, selectedMonth } = this.state;
-        this.picker
-            .show({startYear, endYear, selectedYear, selectedMonth})
-            .then(({year, month}) => {
-              this.setState({
-                selectedYear: year,
-                selectedMonth: month
-            })
-        })
-    }
-    onStateChange = (value) => {
-        this.setState({ stateOne: value });
-    };
-    onChecked(){
-        const {checked} = this.state;
-        checked == true ? this.setState({ checked: false }) : this.setState({ checked: true})
+        return {header:(<Header headerTitle="Billing Information" navigation={navigation} navigate="ReviewOrderPage" backBtn={true} accountBtn={false} />)}
     }
     render() {   
         return (
+            <View style={styles.container}>
             <ScrollView style={styles.container}>
-                <AthenaStepIndicator currentPosition={2} />
-                <AthenaCard>
-                    <AthenaCardTitle title='Billing Information'/>
-                    <AthenaCardContent>
+                <View style={{marginTop: 15, padding: 5}}><StepIndicator currentPosition={2} /></View>
+                <Card width={Global.VW*90}>
+                    <CardHeader title='Billing Information'/>
+                    <CardContent>
                         <View style={{width: '100%', paddingTop: 20, paddingLeft: 10, paddingRight: 10, flexDirection: 'row'}}>
-                            <Text style={{fontSize: 13, color: Global.DARK_GRAY_COLOR}}>
-                                Must match the billing address of the payment method being used for this transaction
-                            </Text>
+                            <Text style={{fontSize: 13, color: Global.DARK_GRAY_COLOR}}>Must match the billing address of the payment method being used for this transaction</Text>
                         </View>
                         {textData.map((textItem, textKey) => {
                             return(  
@@ -138,17 +126,17 @@ class BillingInformationPage extends React.Component {
                                     <AthenaTextInput placeholder={textItem.placeholder} width="100%" keyboardType={textItem.keyboardType} />
                                 </View> :
                                 <View style={{width: '100%', paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, flexDirection: 'row'}}>
-                                    <AthenaSelect name="state" width="100%" options={stateList} selectedValue={this.state.stateOne} onValueChange={this.onStateChange} />
+                                    <SelectBox name="state" width="100%" options={stateList} selectedValue={this.state.stateValue} onValueChange={this.onChangeState} />
                                 </View> 
-                        );}                       
+                            );}                       
                         )}  
-                    </AthenaCardContent>
-                </AthenaCard> 
-                <AthenaCard>
-                    <AthenaCardTitle title='Payment Options'/>
-                    <AthenaCardContent>
-                        <View style={{paddingTop: 20, paddingLeft: 20, paddingRight: 10, flexDirection: 'row'}}>
-                            <RadioForm radio_props={paymentList} initial={0} buttonColor={Global.DARK_BLUE_COLOR} onPress={(value) => {this.setState({value: value})}} />
+                    </CardContent>
+                </Card> 
+                <Card width={Global.VW*90}>
+                    <CardHeader title='Payment Options'/>
+                    <CardContent>
+                        <View style={{paddingTop: 20, paddingLeft: 5, paddingRight: 5, flexDirection: 'row'}}>
+                            <RadioGroup radioButtons={paymentList} onPress={this.onChangePayment} />
                         </View>
                         <View style={{padding: 10, paddingLeft: 10, paddingRight: 10, flexDirection: 'row'}}>
                             <Text style={{width: '100%', fontSize: 15, color: Global.DARK_GRAY_COLOR, textAlign: 'center'}}>
@@ -159,31 +147,31 @@ class BillingInformationPage extends React.Component {
                             <AthenaTextInput placeholder='Card Number' width="100%" keyboardType="numeric" />
                         </View>
                         <View style={{paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, flexDirection: 'row', justifyContent: 'space-between'}}>
-                            <DatePicker
-                                style={[styles.inputStyle, {width: '48%'}]}
-                                date={this.state.date}
-                                mode="date" placeholder="select date" format="MM-YYYY" minDate="01-2010" maxDate="01-2030"
+                            <DatePicker style={{width: '48%'}} date={this.state.dateValue}
+                                mode="date" placeholder="select date" format="MM YYYY" minDate="01-2010" maxDate="12-2030"
                                 confirmBtnText="Confirm" cancelBtnText="Cancel"
-                                customStyles={{ dateIcon: { display: 'none', },
-                                    dateInput: { textAlign: 'left', borderWidth: 0, marginLeft: 36 }
+                                customStyles={{ dateIcon: {position: 'absolute', right: 0, top: 4 },
+                                    dateInput: { width: '100%', flex: 1, height: 35, paddingLeft: 0, borderWidth: 1, borderRadius: 5, fontSize: 15, color: Global.DARK_GRAY_COLOR}
                                 }}
-                                onDateChange={(date) => {this.setState({date: date})}}
+                                onDateChange={(date) => {this.setState({dateValue: date})}}
                             />
-                            <AthenaTextInput placeholder='CVV' width="48%" />
+                            <View style={{width: '48%', marginTop: 3}}>
+                            <AthenaTextInput placeholder='CVV' width="100%" />
+                            </View>
                         </View>
-                    </AthenaCardContent>
-                </AthenaCard> 
-                <AthenaCard>
-                    <AthenaCardTitle title='Opt Out Verification'/>
-                    <AthenaCardContent>
+                    </CardContent>
+                </Card> 
+                <Card width={Global.VW*90}>
+                    <CardHeader title='Opt Out Verification'/>
+                    <CardContent>
                         <View style={{paddingTop: 20, paddingBottom: 20, paddingLeft: 10, paddingRight: 20, flexDirection: 'row'}}>
-                            <RadioForm radio_props={verificationList} initial={0} buttonColor={Global.DARK_BLUE_COLOR} onPress={(value) => {this.setState({value: value})}} />
+                            <RadioGroup radioButtons={verificationList} onPress={this.onChangeVerification} />
                         </View>  
-                    </AthenaCardContent>
-                </AthenaCard>       
-                <AthenaCard>
-                    <AthenaCardTitle title='Job Comments and Notification'/>
-                    <AthenaCardContent>
+                    </CardContent>
+                </Card>       
+                <Card width={Global.VW*90}>
+                    <CardHeader title='Job Comments and Notification'/>
+                    <CardContent>
                         <View style={{paddingTop: 20, paddingLeft: 10, paddingRight: 10, flexDirection: 'row'}}>
                             <Text style={{fontSize: 13, color: Global.DARK_GRAY_COLOR}}>
                                 Here you can provide us with special comments and requests as well as change the email address which the receipt and notification will be sent to
@@ -196,18 +184,70 @@ class BillingInformationPage extends React.Component {
                             <AthenaTextInput placeholder='Comments' width="100%" multiline={true} numberOfLines={4}/>
                         </View>   
                         <View style={{paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, flexDirection: 'row'}}>
-                            <CheckBox style={{width: '10%'}} value={this.state.checked}  onValueChange={() => this.onChecked}/>
+                            <CheckBox style={{width: '10%'}} value={this.state.checked}  onValueChange={this.onChangeChecked}/>
                             <Text style={{width: '90%', fontSize: 13, color: Global.DARK_GRAY_COLOR}}>
                                 By checking this box I am confirming that I have read and agree to the Terms and Conditions below
                             </Text>
                         </View>    
-                    </AthenaCardContent>
-                </AthenaCard>              
-                <View style={{justifyContent: 'center', alignItems: 'center', width:'100%', paddingBottom: 20, marginTop: 10, marginBottom: 40}}>
-                    <AthenaButton buttonTitle="COMPLETE YOUR ORDER" onClick={this.onCompleteClick}/>
-                </View>  
+                    </CardContent>
+                </Card>  
+                <View style={{width: '100%', flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 20, marginBottom: 20}}>
+                    <Button buttonTitle="COMPLETE YOUR ORDER" width={Global.VW*60} onClick={() => this.setState({paymentVisible: true})}/>
+                </View> 
             </ScrollView>
+            <Dialog visible={this.state.paymentVisible} width={Global.VW*90} top={150}>
+                <DialogHeader title="POSTCARDS" closeVisible={true} onClose={() => this.setState({ paymentVisible: false})}/>
+                <DialogContent justifyContent='center' alignItems='center'>   
+                    <View style={{paddingTop: 20, paddingLeft: 10, paddingRight: 10, flexDirection: 'row'}}>
+                        <Text style={{width: '70%', fontSize: 14, fontWeight: 'bold', color: Global.FONT_COLOR}}>SubTotal</Text>
+                        <Text style={{width: '30%', fontSize: 14, color: Global.FONT_COLOR, textAlign: 'right'}}>$ {priceData.subTotalPrice}</Text>
+                    </View>       
+                    <View style={{paddingTop: 10, paddingLeft: 10, paddingRight: 10, flexDirection: 'row'}}>
+                        <Text style={{width: '70%', fontSize: 14, fontWeight: 'bold', color: Global.FONT_COLOR}}>Shipping {'&'} Processing</Text>
+                        <Text style={{width: '5%', fontSize: 14, color: Global.FONT_COLOR, borderBottomWidth: 1}}>+</Text>
+                        <Text style={{width: '25%', fontSize: 14, color: Global.FONT_COLOR, borderBottomWidth: 1, textAlign: 'right'}}>$ {priceData.shippingPrice}</Text>
+                    </View>      
+                    <View style={{paddingBottom: 10, paddingLeft: 10, paddingRight: 10, flexDirection: 'row'}}>
+                        <Text style={{width: '70%', fontSize: 11, color: Global.FONT_COLOR}}>You Selected:</Text>
+                        <Text style={{width: '30%', fontSize: 11, color: Global.FONT_COLOR}}></Text>
+                    </View>      
+                    <View style={{paddingTop: 10, paddingLeft: 10, paddingRight: 10, flexDirection: 'row'}}>
+                        <Text style={{width: '60%', fontSize: 20, color: Global.BLUE_COLOR}}>Total:</Text>
+                        <Text style={{width: '40%', fontSize: 20, color: Global.BLUE_COLOR, textAlign: 'right'}}>$ {priceData.subTotalPrice + priceData.shippingPrice}</Text>
+                    </View>      
+                    <View style={{paddingBottom: 10, paddingLeft: 10, paddingRight: 10, flexDirection: 'row'}}>
+                        <Text style={{width: '100%', fontSize: 11, color: Global.FONT_COLOR}}>{'('}Tax will be added in cart if applicable{')'}</Text>
+                    </View>            
+                    <View style={{marginTop: 10, paddingBottom: 10, width: '100%', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                        <Button buttonTitle="PAY" width="70%" onClick={this.onPay}/>
+                    </View>
+                </DialogContent>
+                {/* <DialogFooter>   
+                    <TouchableOpacity style={{width:Global.VW*90}} onPress={this.onPay}>
+                        <Text style={{textAlign: 'center', fontSize: 15, color: Global.WHITE_COLOR, fontWeight: 'bold'}}>PAY</Text>
+                    </TouchableOpacity>
+                </DialogFooter> */}
+            </Dialog>  
+            </View>
         );
+    }
+    onChangeState = (value) => {
+        this.setState({ stateValue: value });
+    };
+    onChangePayment = (payment) => {
+        let selectedButton = payment.find(e => e.selected == true);
+        this.setState({ paymentValue: selectedButton.value });
+    };
+    onChangeVerification = (verification) => {
+        let selectedButton = verification.find(e => e.selected == true);
+        this.setState({ verificationValue: selectedButton.value });
+    };
+    onChangeChecked = (key) => {
+        const {checked} = this.state;
+        checked == true ? this.setState({ checked: false }) : this.setState({ checked: true});
+    };
+    onPay = () => {
+        alert('Pay OK!');
     }
 }
 
@@ -215,94 +255,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: Global.WHITE_COLOR,
-        paddingTop: 20,
-        paddingLeft: 10,
-        paddingRight: 10
-    },
-    inputStyle: {
-      height: 40,
-    //   paddingLeft: 10,
-      backgroundColor: '#FFFFFF', 
-      color: Global.DARK_GRAY_COLOR, 
-      fontSize: 13,
-      borderRadius: 5,
-      borderWidth: 1,
-      borderColor: Global.RIGHT_BLUE_COLOR
-    },
-
-    searchBarContainerStyle: {
-      marginBottom: 10,
-      flexDirection: "row",
-      height: 40,
-      shadowOpacity: 1.0,
-      shadowRadius: 5,
-      shadowOffset: {
-        width: 1,
-        height: 1
-      },
-      backgroundColor: "rgba(255,255,255,1)",
-      shadowColor: "#d3d3d3",
-      borderRadius: 10,
-      elevation: 3,
-      marginLeft: 10,
-      marginRight: 10
-    },
-  
-    selectLabelTextStyle: {
-      color: "#000",
-      textAlign: "left",
-      width: "99%",
-      padding: 10,
-      flexDirection: "row"
-    },
-    placeHolderTextStyle: {
-      color: "#D3D3D3",
-      padding: 10,
-      textAlign: "left",
-      width: "99%",
-      flexDirection: "row"
-    },
-    dropDownImageStyle: {
-      marginLeft: 10,
-      width: 10,
-      height: 10,
-      alignSelf: "center"
-    },
-  
-    pickerStyle: {
-      marginLeft: 18,
-      elevation:3,
-      paddingRight: 25,
-      marginRight: 10,
-      marginBottom: 2,
-      shadowOpacity: 1.0,
-      shadowOffset: {
-        width: 1,
-        height: 1
-      },
-      borderWidth:1,
-      shadowRadius: 10,
-      backgroundColor: "rgba(255,255,255,1)",
-      shadowColor: "#d3d3d3",
-      borderRadius: 5,
-      flexDirection: "row"
-    },
-    subContainer:{
-        margin: 8
-    },
-    rowStyle:{
-        backgroundColor: '#FFF',
-        color: '#333',
-        padding: 8,
-        fontSize: 20
-    },
-    dropDownContainer:{
-        borderBottomWidth: 1,
-        padding: 8
-    },
-    dropDownText:{
-        fontSize: 20,
-        margin: 8
+        width: Global.VW * 100,
+        height: Global.VW * 100,
+        zIndex: 0
     }
 });
 

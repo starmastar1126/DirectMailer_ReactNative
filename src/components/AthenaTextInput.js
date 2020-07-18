@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, TextInput } from 'react-native';
 
-import Global from '../views/Global';
+import Global from '../assets/global/Styles';
 
 class AthenaTextInput extends React.Component {
   render() {
@@ -29,14 +29,15 @@ class AthenaTextInput extends React.Component {
 
 const styles = StyleSheet.create({
   inputStyle: {
-    height: 40,
+    height: 35,
     paddingLeft: 10,
-    backgroundColor: '#FFFFFF', 
-    color: Global.DARK_GRAY_COLOR, 
+    paddingTop: 0, paddingBottom: 0,
+    backgroundColor: Global.WHITE_COLOR, 
+    color: Global.FONT_COLOR, 
     fontSize: 13,
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: Global.RIGHT_BLUE_COLOR
+    borderColor: Global.BORDER_COLOR
   }
 });
 

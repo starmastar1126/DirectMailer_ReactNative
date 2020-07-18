@@ -1,79 +1,74 @@
 import React from 'react';
-import {StyleSheet, View, Text, Image} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 
-import Global from '../views/Global';
-import AthenaHeader from '../components/AthenaHeader';
+import Global from '../assets/global/Styles';
+import Header from '../components/Header';
+import Card from '../components/Card';
+import CardHeader from '../components/CardHeader';
+import CardContent from '../components/CardContent';
 import AthenaTextInput from '../components/AthenaTextInput';
-import AthenaSelect from '../components/AthenaSelect';
-import AthenaButton from '../components/AthenaButton';
-
-import image1 from '../assets/images/placeholder.jpg';
+import Button from '../components/Button';
 
 class ChangeCredentialPage extends React.Component { 
+    constructor (props) {
+        super(props);
+        this.state = { stateValue: 0 };
+    }   
     static navigationOptions = ({navigation}) => {
-        return {header:(<AthenaHeader headerTitle="User Profile" navigation={navigation} navigate="GetStartPage" />)}
+        return {header:(<Header headerTitle="Change Credential" navigation={navigation} navigate="SelectRoutesPage" backBtn={true} accountBtn={false} />)}
     }
     render() {
         return (
-            <ScrollView style={styles.container}>    
-                <View style={[styles.viewDiv, {paddingTop: 20}]}>
-                    <AthenaTextInput placeholder="Current Email" width="100%" keyboardType="email-address" />{/*  value={this.state.streetAddress} /> */}
-                </View>   
-                <View style={[styles.viewDiv, {paddingTop: 15}]}>
-                    <AthenaTextInput placeholder="New Email" width="100%" keyboardType="email-address" />{/*  value={this.state.streetAddress} /> */}
-                </View>   
-                <View style={[styles.viewDiv, styles.spaceBetween, {paddingTop: 15}]}>
-                    <View style={{width: '50%'}} />
-                    <View style={{width: '50%'}} >
-                        <AthenaButton buttonTitle="Change" onClick={this.onButtonClick}/>
-                    </View>
-                </View>   
-                <View style={[styles.viewDiv, {paddingTop: 20}]}>
-                    <AthenaTextInput placeholder="Current Password" width="100%" secureTextEntry={true} />{/*  value={this.state.streetAddress} /> */}
-                </View>   
-                <View style={[styles.viewDiv, {paddingTop: 15}]}>
-                    <AthenaTextInput placeholder="New Password" width="100%" secureTextEntry={true} />{/*  value={this.state.streetAddress} /> */}
-                </View>   
-                <View style={[styles.viewDiv, styles.spaceBetween, {paddingTop: 15}]}>
-                    <View style={{width: '50%'}} />
-                    <View style={{width: '50%'}} >
-                        <AthenaButton buttonTitle="Change" onClick={this.onButtonClick}/>
-                    </View>
-                </View>
+            <ScrollView style={styles.container}>  
+                <Card width={Global.VW*90}>
+                    <CardHeader title='Change Email'/>
+                    <CardContent>
+                        <View style={{width: '100%', paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, flexDirection: 'row'}}>
+                            <AthenaTextInput placeholder="Current Email" width="100%" keyboardType="email-address" />
+                        </View>
+                        <View style={{width: '100%', paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, flexDirection: 'row'}}>
+                            <AthenaTextInput placeholder="New Email" width="100%" keyboardType="email-address" />  
+                        </View>        
+                        <View style={{marginTop: 20, paddingBottom: 10, width: '100%', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                            <Button buttonTitle="Change" width="70%" onClick={this.onChangeEmail}/>
+                        </View>
+                    </CardContent>
+                </Card> 
+                <Card width={Global.VW*90}>
+                    <CardHeader title='Change Password'/>
+                    <CardContent>
+                        <View style={{width: '100%', paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, flexDirection: 'row'}}>
+                            <AthenaTextInput placeholder="Current Password" width="100%" secureTextEntry={true} />
+                        </View>
+                        <View style={{width: '100%', paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, flexDirection: 'row'}}>
+                            <AthenaTextInput placeholder="New Password" width="100%" secureTextEntry={true} />  
+                        </View>        
+                        <View style={{marginTop: 20, paddingBottom: 10, width: '100%', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                            <Button buttonTitle="Change" width="70%" onClick={this.onChangePassword}/>
+                        </View>
+                    </CardContent>
+                </Card>      
+                <View style={{marginTop: 20, paddingBottom: 20, width: '100%', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}} />
             </ScrollView>
         );
     }
+    onChangeEmail = () => {
+        alert(" Change Email OK!")
+    } 
+    onChangePassword = () => {
+        alert(" Change Password OK!")
+    } 
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: Global.WHITE_COLOR,
+        width: Global.VW * 100,
+        height: Global.VH * 100,
         paddingTop: 20,
-        paddingLeft: 5,
-        paddingRight: 5,
-    },
-    button: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: 50,
-        backgroundColor: '#7B8D93',
-        borderRadius: 5,
-        color: '#ffffff'
-    },
-    viewDiv: { 
-        flexDirection: 'row',
-        width: '100%', 
-        paddingLeft: 20, 
-        paddingRight: 20
-    },
-    spaceBetween: {
-        justifyContent: 'space-between'
-    },
-    justifyCenter: {
-        justifyContent: 'center',
-        alignItems: 'center'
+        zIndex: 0
     }
 });
 

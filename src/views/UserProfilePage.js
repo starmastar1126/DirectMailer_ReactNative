@@ -3,13 +3,27 @@ import {StyleSheet, View, Text, Image} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import PhotoUpload from 'react-native-photo-upload'
 
-import Global from '../views/Global';
-import AthenaHeader from '../components/AthenaHeader';
+import Global from '../assets/global/Styles';
+import Header from '../components/Header';
+import Card from '../components/Card';
+import CardHeader from '../components/CardHeader';
+import CardContent from '../components/CardContent';
 import AthenaTextInput from '../components/AthenaTextInput';
-import AthenaSelect from '../components/AthenaSelect';
-import AthenaButton from '../components/AthenaButton';
+import SelectBox from '../components/SelectBox';
+import Button from '../components/Button';
 
-import image1 from '../assets/images/default-avatar.png';
+import avatar from '../assets/images/default-avatar.png';
+
+const textData = [
+    { index: 1, title: '', placeholder: 'First Name', keyboardType: '' },
+    { index: 2, title: '', placeholder: 'Last Name', keyboardType: '' },
+    { index: 3, title: '', placeholder: 'Address line1', keyboardType: '' },
+    { index: 4, title: '', placeholder: 'Address line2', keyboardType: '' },
+    { index: 5, title: '', placeholder: 'City', keyboardType: '' },
+    { index: 6, title: '', placeholder: 'State', keyboardType: '' },
+    { index: 7, title: '', placeholder: 'ZIP Code', keyboardType: 'numeric' },
+    { index: 8, title: '', placeholder: 'Phone Number', keyboardType: 'numeric' }
+]
 
 const stateList = [
     { value: 0, label: "State"},
@@ -69,89 +83,69 @@ const stateList = [
 class UserProfilePage extends React.Component { 
     constructor (props) {
         super(props);
-        this.state = { stateOne: 0 };
-    }       
+        this.state = { stateValue: 0 };
+    }   
     static navigationOptions = ({navigation}) => {
-        return {header:(<AthenaHeader headerTitle="User Profile" navigation={navigation} navigate="GetStartPage" />)}
+        return {header:(<Header headerTitle="User Profile" navigation={navigation} navigate="SelectRoutesPage" backBtn={true} accountBtn={false} />)}
     }
-    onButtonClick = () => {
-        this.props.navigation.navigate("GetStartPage");
-    } 
-    onStateChange = (value) => {
-        this.setState({ stateOne: value });
-    };
     render() {
         return (
             <ScrollView style={styles.container}>                
                 <View style={{width: '100%', paddingTop: 30, justifyContent: 'center', alignItems: 'center'}}> 
-                    <PhotoUpload
-                        // onPhotoSelect={avatar => {
-                        //     if (avatar) {
-                        //     console.log('Image base64 string: ', avatar)
-                        //     }
-                        // }}
-                        >
-                        <Image source={image1} resizeMode='cover' style={{width: 100, height: 100, borderRadius: 60, alignItems: 'center', borderWidth: 1, borderColor: Global.DARK_BLUE_COLOR}} />
+                    <PhotoUpload>
+                        <Image source={avatar} style={styles.avatar} />
                     </PhotoUpload>
                 </View>
-                <View style={[styles.viewDiv, {paddingTop: 15}]}>
-                    <AthenaTextInput placeholder="First Name" width="100%" />{/*  value={this.state.streetAddress} /> */}
-                </View>   
-                <View style={[styles.viewDiv, {paddingTop: 15}]}>
-                    <AthenaTextInput placeholder="Last Name" width="100%" />{/*  value={this.state.streetAddress} /> */}
-                </View>  
-                <View style={[styles.viewDiv, {paddingTop: 15}]}>
-                    <AthenaTextInput placeholder="Address line1" width="100%" />{/*  value={this.state.streetAddress} /> */}
-                </View>   
-                <View style={[styles.viewDiv, {paddingTop: 15}]}>
-                    <AthenaTextInput placeholder="Address line2" width="100%" />{/*  value={this.state.streetAddress} /> */}
-                </View>   
-                <View style={[styles.viewDiv, {paddingTop: 15}]}>
-                    <AthenaTextInput placeholder="City" width="100%" />{/*  value={this.state.streetAddress} /> */}
-                </View>   
-                <View style={[styles.viewDiv, styles.spaceBetween, {paddingTop: 15}]}>
-                    <AthenaSelect name="state" width="60%" options={stateList} selectedValue={this.state.stateOne} onValueChange={this.onStateChange} />
-                    <AthenaTextInput placeholder="ZIP Code" width="35%" keyboardType="number-pad"/>{/*  value={this.state.streetAddress} /> */}
-                </View>   
-                <View style={[styles.viewDiv, {paddingTop: 15}]}>
-                    <AthenaTextInput placeholder="Phone Number" width="100%" keyboardType="number-pad"/>{/*  value={this.state.streetAddress} /> */}
-                </View> 
-                <View style={[styles.viewDiv, styles.justifyCenter, {height: 100, paddingBottom: 40}]}>
-                    <AthenaButton buttonTitle="SAVE" onClick={this.onButtonClick}/>
+                <Card width={Global.VW*90}>
+                    <CardHeader title='Edit User Profile'/>
+                    <CardContent>
+                        {textData.map((textItem, textKey) => {
+                            return(  
+                                textItem.placeholder != 'State' ? 
+                                <View style={{width: '100%', paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, flexDirection: 'row'}}>
+                                    <AthenaTextInput placeholder={textItem.placeholder} width="100%" keyboardType={textItem.keyboardType} />
+                                </View> :
+                                <View style={{width: '100%', paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, flexDirection: 'row'}}>
+                                    <SelectBox name="state" width="100%" options={stateList} selectedValue={this.state.stateValue} onValueChange={this.onChangeState} />
+                                </View> 
+                            );}                       
+                        )}  
+                    </CardContent>
+                </Card>          
+                <View style={{marginTop: 20, paddingBottom: 20, width: '100%', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                    <Button buttonTitle="SAVE" width="70%" onClick={this.onSaveProfile}/>
                 </View>
             </ScrollView>
         );
     }
+    onSaveProfile = () => {
+        alert(" Save Profile OK!")
+    } 
+    onChangeState = (value) => {
+        this.setState({ stateValue: value });
+    };
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: Global.WHITE_COLOR,
-        paddingTop: 20,
-        paddingLeft: 5,
-        paddingRight: 5,
+        width: Global.VW * 100,
+        height: Global.VW * 100,
+        zIndex: 0
     },
-    button: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: 50,
-        backgroundColor: '#7B8D93',
-        borderRadius: 5,
-        color: '#ffffff'
-    },
-    viewDiv: { 
-        flexDirection: 'row',
-        width: '100%', 
-        paddingLeft: 20, 
-        paddingRight: 20
-    },
-    spaceBetween: {
-        justifyContent: 'space-between'
-    },
-    justifyCenter: {
-        justifyContent: 'center',
-        alignItems: 'center'
+    avatar: {
+        width: 100, 
+        height: 100, 
+        borderRadius: 60, 
+        alignItems: 'center', 
+        borderWidth: 1,
+        borderColor: Global.BLACK_COLOR,
+        shadowColor: Global.BLACK_COLOR,
+        shadowOffset: { width: 0, height: 10 },
+        shadowOpacity: 0.8,
+        shadowRadius: 20,
+        elevation: 10,
     }
 });
 

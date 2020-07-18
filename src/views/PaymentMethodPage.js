@@ -1,129 +1,97 @@
 import React from 'react';
-import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import DatePicker from 'react-native-datepicker';
+import {Divider} from 'react-native-elements';
 
-import Global from '../views/Global';
-import AthenaHeader from '../components/AthenaHeader';
+import Global from '../assets/global/Styles';
+import Header from '../components/Header';
+import Card from '../components/Card';
+import CardHeader from '../components/CardHeader';
+import CardContent from '../components/CardContent';
 import AthenaTextInput from '../components/AthenaTextInput';
-import AthenaSelect from '../components/AthenaSelect';
-import AthenaButton from '../components/AthenaButton';
+import Button from '../components/Button';
 
-import image1 from '../assets/images/placeholder.jpg';
+import deleteIcon from '../assets/images/delete_icon.png'
 
-class PaymentMethodPage extends React.Component {  
+var paymentList = [
+    {label: 'xxxx xxxx xxxx 4252'},
+    {label: 'xxxx xxxx xxxx 6502'},
+    {label: 'xxxx xxxx xxxx 3125'},
+]
+
+class PaymentMethodPage extends React.Component { 
     constructor (props) {
         super(props);
-        this.state = { date: "05-2016" };
-    }       
+        this.state = { dateValue: "11-2020" };
+    }   
     static navigationOptions = ({navigation}) => {
-        return {header:(<AthenaHeader headerTitle="Payment Method" navigation={navigation} navigate="GetStartPage" />)}
-    }
-    showPicker = ()=> {
-        const { startYear, endYear, selectedYear, selectedMonth } = this.state;
-        this.picker
-            .show({startYear, endYear, selectedYear, selectedMonth})
-            .then(({year, month}) => {
-              this.setState({
-                selectedYear: year,
-                selectedMonth: month
-            })
-        })
+        return {header:(<Header headerTitle="Payment Method" navigation={navigation} navigate="SelectRoutesPage" backBtn={true} accountBtn={false} />)}
     }
     render() {
         return (
-            <ScrollView style={styles.container}>    
-                <View style={[styles.viewDiv, {paddingTop: 20}]}>
-                    <AthenaTextInput placeholder="Card Number" width="100%" keyboardType="number-pad" />{/*  value={this.state.streetAddress} /> */}
-                </View>   
-                <View style={[styles.viewDiv, styles.spaceBetween, {paddingTop: 15}]}>
-                    {/* <AthenaTextInput placeholder="Exp Month/Year" width="55%" /> value={this.state.streetAddress} /> */}
-                    <DatePicker
-                                style={[styles.inputStyle, {width: '55%'}]}
-                                date={this.state.date}
-                                mode="date" placeholder="Exp Month/Year" format="MM-YYYY" minDate="01-2010" maxDate="01-2030"
+            <ScrollView style={styles.container}>  
+                <Card width={Global.VW*90}>
+                    <CardHeader title='Payment Method'/>
+                    <CardContent>
+                        <View style={{paddingTop: 10, paddingLeft: 10, paddingRight: 10, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                            <AthenaTextInput placeholder='Card Number' width="100%" keyboardType="numeric" />
+                        </View>
+                        <View style={{paddingTop: 10, paddingBottom: 10, paddingLeft: 10, paddingRight: 10, flexDirection: 'row', justifyContent: 'space-between'}}>
+                            <DatePicker style={{width: '48%'}} date={this.state.dateValue}
+                                mode="date" placeholder="select date" format="MM YYYY" minDate="01-2010" maxDate="12-2030"
                                 confirmBtnText="Confirm" cancelBtnText="Cancel"
-                                customStyles={{ dateIcon: { display: 'none', },
-                                    dateInput: { textAlign: 'left', borderWidth: 0, marginLeft: 36 }
+                                customStyles={{ dateIcon: {position: 'absolute', right: 0, top: 4 },
+                                    dateInput: { width: '100%', flex: 1, height: 35, paddingLeft: 0, borderWidth: 1, borderRadius: 5, fontSize: 15, color: Global.DARK_GRAY_COLOR}
                                 }}
-                                onDateChange={(date) => {this.setState({date: date})}}
+                                onDateChange={(date) => {this.setState({dateValue: date})}}
                             />
-                    <AthenaTextInput placeholder="CVV" width="40%" />{/*  value={this.state.streetAddress} /> */}
-                </View>   
-                <View style={[styles.viewDiv, styles.spaceBetween, {paddingTop: 15}]}>
-                    <View style={{width: '50%'}} />
-                    <View style={{width: '50%'}} >
-                        <AthenaButton style="marginRight: 0" buttonTitle="Change" onClick={this.onButtonClick}/>
-                    </View>
-                </View>
-                <View style={[styles.viewDiv, styles.spaceBetween, {paddingTop: 25}]}>
-                    <Text style={{width: '70%', fontSize: 13, color: Global.DARK_GRAY_COLOR}}>
-                        xxxx xxxx xxxx 4252
-                    </Text>
-                    <TouchableOpacity style={{width: 15, height: 15, backgroundColor: '#7B8D93', borderRadius: 18, alignItems: 'center'}}>
-                        <Text style={{fontSize: 10, color: '#EEEEEE'}}>$</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={[styles.viewDiv, styles.spaceBetween, {paddingTop: 15}]}>
-                    <Text style={{width: '70%', fontSize: 13, color: Global.DARK_GRAY_COLOR}}>
-                        xxxx xxxx xxxx 6502
-                    </Text>
-                    <TouchableOpacity style={{width: 15, height: 15, backgroundColor: '#7B8D93', borderRadius: 18, alignItems: 'center'}}>
-                        <Text style={{fontSize: 10, color: '#EEEEEE'}}>$</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={[styles.viewDiv, styles.spaceBetween, {paddingTop: 15}]}>
-                    <Text style={{width: '70%', fontSize: 13, color: Global.DARK_GRAY_COLOR}}>
-                        xxxx xxxx xxxx 3125
-                    </Text>
-                    <TouchableOpacity style={{width: 15, height: 15, backgroundColor: '#7B8D93', borderRadius: 18, alignItems: 'center'}}>
-                        <Text style={{fontSize: 10, color: '#EEEEEE'}}>$</Text>
-                    </TouchableOpacity>
-                </View>
+                            <View style={{width: '48%', marginTop: 3}}>
+                            <AthenaTextInput placeholder='CVV' width="100%" />
+                            </View>
+                        </View>   
+                        <View style={{marginTop: 20, paddingBottom: 10, width: '100%', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                            <Button buttonTitle="Add" width="70%" onClick={this.onAddPayment}/>
+                        </View>   
+                        <View style={{width: '100%', paddingTop: 10, paddingLeft: 10, paddingRight: 10, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                            <Text style={{width: '100%', fontSize: 15, fontWeight: 'bold', color: Global.FONT_COLOR}}>Payment List</Text>
+                        </View>      
+                        <Divider style={{ backgroundColor: Global.BORDER_COLOR }} />  
+                        <View style={{width: '100%', paddingTop: 20, paddingLeft: 10, paddingRight: 10, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                            {paymentList.map((paymentItem,paymentKey) => {
+                                return(  
+                                    <View style={{width: '100%', paddingTop: 10, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                                        <Text style={{width: '90%', fontSize: 12, fontWeight: 'normal', color: Global.FONT_COLOR}}>{paymentItem.label}</Text>
+                                        <TouchableOpacity onPress={this.onDeletePayment}><Image source={deleteIcon} style={{width: 25, height: 25}}/></TouchableOpacity>
+                                    </View>
+                                );}                       
+                            )}
+                        </View>
+                    </CardContent>
+                </Card>    
+                <View style={{marginTop: 20, paddingBottom: 20, width: '100%', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}} />
             </ScrollView>
         );
     }
+    onAddPayment = () => {
+        alert('Add Payment OK!');
+        // paymentList.label.push('xxxx xxxx xxxx 1126')
+    } 
+    onDeletePayment = () => {
+        alert('Delete Payment OK!');
+        // paymentList.label.pop('xxxx xxxx xxxx 1126')
+    } 
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: Global.WHITE_COLOR,
+        width: Global.VW * 100,
+        height: Global.VH * 100,
         paddingTop: 20,
-        paddingLeft: 5,
-        paddingRight: 5,
-    },
-    button: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: 50,
-        backgroundColor: '#7B8D93',
-        borderRadius: 5,
-        color: '#ffffff'
-    },
-    viewDiv: { 
-        flexDirection: 'row',
-        width: '100%', 
-        paddingLeft: 20, 
-        paddingRight: 20
-    },
-    spaceBetween: {
-        justifyContent: 'space-between'
-    },
-    justifyCenter: {
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    inputStyle: {
-      height: 40,
-    //   paddingLeft: 10,
-      backgroundColor: '#FFFFFF', 
-      color: Global.DARK_GRAY_COLOR, 
-      fontSize: 13,
-      borderRadius: 5,
-      borderWidth: 1,
-      borderColor: Global.RIGHT_BLUE_COLOR
-    },
+        zIndex: 0
+    }
 });
 
 export default PaymentMethodPage;
