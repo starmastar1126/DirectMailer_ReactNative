@@ -2,6 +2,7 @@ var map;
 var geojson;
 var info;
 var command;
+var zipCode = 90001;
 
 function showMap(lat, lng, data, zoomOffset) {
     // alert(lat + ":" + lng);
@@ -55,7 +56,6 @@ function highlightFeature(e) {
         });
         busi_count = busi_count - layer.feature.properties.BUS_CNT;
         res_count = res_count - layer.feature.properties.RES_CNT;
-        postMessage(JSON.stringify({"businessCount": busi_count,"residentialCount": res_count}));
     } else {
         layer.setStyle({
             weight: 2,
@@ -97,8 +97,7 @@ var geometry_data = {
 };
 var coordinates_data=[];
 
-function getMapData(lat, lng, zoomOffset) {
-    var zipCode;
+function getMapData(lat, lng) {
     var zipUrl = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&key=AIzaSyBBRSD5kHsHnoS3wOV7y-zNzXSjsuDuz1o"
     fetch(zipUrl).then(function(response) {
         return response.json();
@@ -106,45 +105,42 @@ function getMapData(lat, lng, zoomOffset) {
         for(var i = 0; i < data.results[0].address_components.length; i++){
             if(JSON.stringify(data.results[0].address_components[i].types) == "[\"postal_code\"]")
                 zipCode = data.results[0].address_components[i].long_name;
+
         }
     }).catch(function() {});
 
-    
-    setTimeout(() => {
-        var url = "https://gis.usps.com/arcgis/rest/services/EDDM/selectZIP/GPServer/routes/execute?f=json&env%3AoutSR=4326&ZIP=" + zipCode + "&Rte_Box=R&UserName=EDDM";
-        fetch(url).then(function(response) {
-            return response.json();
-        }).then(function(data) {
+    var url = "https://gis.usps.com/arcgis/rest/services/EDDM/selectZIP/GPServer/routes/execute?f=json&env%3AoutSR=4326&ZIP=" + zipCode.replace("\"", "") + "&Rte_Box=R&UserName=EDDM";
+    // alert(url);
+    fetch(url).then(function(response) {
+        return response.json();
+    }).then(function(data) {
+        
+        for(var i = 0; i < data.results[0].value.features.length; i++) {
+            state_data.features.push({});
+            state_data.features[i]["type"] = "Feature";
+            state_data.features[i]["id"] = i;
+            properties_data["name"] = data.results[0].value.features[i].attributes.FAC_NAME;
+            properties_data["density"] = 10.00;
+            properties_data["BUS_CNT"] = data.results[0].value.features[i].attributes.BUS_CNT;
+            properties_data["RES_CNT"] = data.results[0].value.features[i].attributes.RES_CNT;
+            state_data.features[i]["properties"] = properties_data;
             
-            for(var i = 0; i < data.results[0].value.features.length; i++) {
-                state_data.features.push({});
-                state_data.features[i]["type"] = "Feature";
-                state_data.features[i]["id"] = i;
-                properties_data["name"] = data.results[0].value.features[i].attributes.FAC_NAME;
-                properties_data["density"] = 10.00;
-                properties_data["BUS_CNT"] = data.results[0].value.features[i].attributes.BUS_CNT;
-                properties_data["RES_CNT"] = data.results[0].value.features[i].attributes.RES_CNT;
-                state_data.features[i]["properties"] = properties_data;
-                
-                var coordinates_col = 0;
-                geometry_data = {
-                "type": "Polygon",
-                coordinates:[]
-                };
-                geometry_data.coordinates = data.results[0].value.features[i].geometry.paths;
-                state_data.features[i]["geometry"] = geometry_data;
-                properties_data = {};
-            }
-            showMap(lat, lng, state_data, zoomOffset);
-        }).catch(function() {});
-      }, 10000)
-    
+            var coordinates_col = 0;
+            geometry_data = {
+            "type": "Polygon",
+            coordinates:[]
+            };
+            geometry_data.coordinates = data.results[0].value.features[i].geometry.paths;
+            state_data.features[i]["geometry"] = geometry_data;
+            properties_data = {};
+        }
+        showMap(lat, lng, state_data, 15);
+    }).catch(function() {});
 }
 
 document.addEventListener("message", function(event) {
     let json_data = JSON.parse(event.data);
     var lat = json_data.lat;
     var lng = json_data.lng;
-    var zoomOffset = json_data.zoomOffset
-    getMapData(lat, lng, zoomOffset);
+    getMapData(lat, lng);
 }, false);

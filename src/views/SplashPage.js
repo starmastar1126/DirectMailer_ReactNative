@@ -17,11 +17,6 @@ const splashData = [
   onClick = () => {
     this.props.navigation.navigate("SelectRoutesPage")
   }
-  componentDidMount() {
-    setTimeout(() => {
-      this.props.navigation.navigate("SelectRoutesPage")
-    }, 3000)
-  }
   render() {
     return (
       <TouchableOpacity style={styles.container} onPress={this.onClick}>

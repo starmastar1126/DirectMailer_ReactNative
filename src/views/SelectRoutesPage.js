@@ -5,94 +5,92 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { Divider } from 'react-native-elements';
 
-import Global from '../assets/global/Styles';
-import Header from '../components/Header';
-import Dialog from '../components/Dialog';
-import DialogHeader from '../components/DialogHeader';
-import DialogContent from '../components/DialogContent';
-import DialogFooter from '../components/DialogFooter';
-import AthenaTextInput from '../components/AthenaTextInput';
-import Button from '../components/Button';
+// const homePlace = { description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
+// const workPlace = { description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
 
-import searchIcon from '../assets/images/search_icon.png';
-import filterIcon from '../assets/images/filter_icon.png';
-import routesIcon from '../assets/images/routes_icon.png';
-import businessIcon from '../assets/images/business_icon.png';
-import residentialIcon from '../assets/images/residential_icon.png';
-import minimizeIcon from '../assets/images/minimize_icon.png'
-import maximizeIcon from '../assets/images/maximize_icon.png'
-import loginIcon from '../assets/images/login_icon.png'
-import registerIcon from '../assets/images/register_icon.png'
+import Global from '../assets/global/Styles';
+import AthenaHeader from '../components/AthenaHeader';
+import AthenaDialog from '../components/AthenaDialog';
+import AthenaDialogHeader from '../components/AthenaDialogHeader';
+import AthenaDialogContent from '../components/AthenaDialogContent';
+import AthenaDialogFooter from '../components/AthenaDialogFooter';
+
+import searchIcon from '../assets/images/search_icon1.png';
+import filterIcon from '../assets/images/filter_icon1.png';
+import closeIcon from '../assets/images/close_icon.png';
 
 var routesData = { zipCode: '', radius: 1, householdIncome: [], age: [], homeOwnership: [], gender: [], presenceOfChildren: [] }
 var radiusData = [
-    {label: '1 mile', value: 1, color: Global.TITLE_COLOR, size: 22, selected: false},
-    {label: '2 miles', value: 2, color: Global.TITLE_COLOR, size: 22, selected: false},
-    {label: '3 miles', value: 3, color: Global.TITLE_COLOR, size: 22, selected: false},
+    {label: '1 mile', value: 1, color: Global.DIALOG_COLOR, size: 22, selected: false},
+    {label: '2 miles', value: 2, color: Global.DIALOG_COLOR, size: 22, selected: false},
+    {label: '3 miles', value: 3, color: Global.DIALOG_COLOR, size: 22, selected: false},
 ]
 class SelectRoutesPage extends React.Component { 
     constructor (props) {
         super(props);
         this.state = {
-            mapData: null, cardVisible: true,
-            routesValue: 0, businessValue: 0, residentialValue: 0, residentialChecked: false, 
+            mapData: null,
+            
             radiusVisible: false, householdIncomeVisible: false, ageVisible: false, homeOwnershipVisible: false, genderVisible: false, presenceOfChildrenVisible: false,
             D0000k: false, D0015k: false, D1525k: false, D2535k: false, D3550k: false, D5075k: false, D75100k: false, D100125k: false, D125150k: false, D150175k: false, D175200k: false, D200250k: false, D250pluk: false,
             A1824E: false, A2534E: false, A3544E: false, A4554E: false, A5564E: false, A65plu: false,
             renter: false, homeOwner: false,
             adultMales: false, adultFemales: false,
-            childrenInHousehold: false, noChildrenInHousehold: false,
-            registerVisible: false, loginVisible: false, signupVisible: false, verificationVisible: false,
+            childrenInHousehold: false, noChildrenInHousehold: false
         };
     }    
     static navigationOptions = ({navigation}) => {
-        return {header:(<Header headerTitle="Select Routes" navigation={navigation} navigate="GetStartPage" backBtn={false} accountBtn={true} />)}
+        return {header:(<AthenaHeader headerTitle="Select Routes" navigation={navigation} navigate="GetStartPage" backBtn={false} accountBtn={true} />)}
     }
     render() {
         return (
             <View style={styles.container}>
                 <View style={styles.autocompleteView}>
-                    <GooglePlacesAutocomplete
-                        placeholder='Zip, City, State, Address' minLength={2} autoFocus={false} returnKeyType={'search'} keyboardAppearance={'light'} listViewDisplayed='auto' fetchDetails={true} renderDescription={row => row.description} getDefaultValue={() => ''}
-                        query={{ key: 'AIzaSyBBRSD5kHsHnoS3wOV7y-zNzXSjsuDuz1o', language: 'en', types: 'geocode' }}
-                        styles={{textInputContainer: {width: '100%', backgroundColor: Global.WHITE_COLOR}, textInput: {width: '100%', height: 35, marginTop: 5, borderWidth: 1, borderColor: Global.RIGHT_GRAY_COLOR, borderRadius: 10}, description: {fontWeight: 'bold'}, predefinedPlacesDescription: {color: '#1faadb'}, listView: {backgroundColor: Global.WHITE_COLOR}}}
-                        currentLocation={false} currentLocationLabel="Current location" nearbyPlacesAPI='GooglePlacesSearch' GoogleReverseGeocodingQuery={{}} GooglePlacesSearchQuery={{rankby: 'distance', type: 'cafe'}} GooglePlacesDetailsQuery={{fields: 'formatted_address'}}
-                        filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} debounce={200}
-                        renderLeftButton={() => <Image source={searchIcon} style={{marginTop: 10, marginLeft: 10, width: 30, height: 30}}/>}
-                        onPress={(data, details = null) => { 
-                            this.webViewRef.postMessage(JSON.stringify({"lat": details.geometry.location.lat, "lng": details.geometry.location.lng, zoomOffset: 15 }));
-                        }} 
+                <GooglePlacesAutocomplete
+                    placeholder='Zip, City, State, Address' minLength={2} autoFocus={false} returnKeyType={'search'} keyboardAppearance={'light'} listViewDisplayed='auto' fetchDetails={true} renderDescription={row => row.description} getDefaultValue={() => ''}
+                    query={{ key: 'AIzaSyBBRSD5kHsHnoS3wOV7y-zNzXSjsuDuz1o', language: 'en', types: '(cities)' }}
+                    styles={{textInputContainer: {width: '100%', backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#AAAAAA', borderRadius: 10}, description: {fontWeight: 'bold'}, predefinedPlacesDescription: {color: '#1faadb'}, listView: {backgroundColor: '#FFFFFF'}}}
+                    currentLocation={false} currentLocationLabel="Current location" nearbyPlacesAPI='GooglePlacesSearch' GoogleReverseGeocodingQuery={{}} GooglePlacesSearchQuery={{rankby: 'distance', type: 'cafe'}} GooglePlacesDetailsQuery={{fields: 'formatted_address'}}
+                    filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} debounce={200}
+                    renderLeftButton={() => <Image source={searchIcon} style={{marginTop: 10, marginLeft: 10, width: 25, height: 25}}/>}
+                    onPress={(data, details = null) => { 
+                        // this.setState({ mapData : details })
+                        // alert(details.geometry.location.lat);
+                        this.webViewRef.postMessage(JSON.stringify({"lat": details.geometry.location.lat, "lng": details.geometry.location.lng }));
+                    }} 
                     />
                     <Menu>
-                        <MenuTrigger><Image source={filterIcon} style={{marginTop: 10, marginLeft: 10, width: 30, height: 30}}/></MenuTrigger>
+                        <MenuTrigger><Image source={filterIcon} style={{marginTop: 10, marginLeft: 10, width: 25, height: 25}}/></MenuTrigger>
                         <MenuOptions>
-                            <MenuOption style={{height: 35, marginTop: 7}} onSelect={this.onShowRadius} text='Radius' /><Divider style={{ backgroundColor: Global.BORDER_COLOR }} />
-                            <MenuOption style={{height: 35, marginTop: 7}} onSelect={this.onShowHouseholdIncome} text='Household Income' /><Divider style={{ backgroundColor: Global.BORDER_COLOR }} />
-                            <MenuOption style={{height: 35, marginTop: 7}} onSelect={this.onShowAge} text='Age'/><Divider style={{ backgroundColor: Global.BORDER_COLOR }} />
-                            <MenuOption style={{height: 35, marginTop: 7}} onSelect={this.onShowHomeOwnership} text='Home Ownership'/><Divider style={{ backgroundColor: Global.BORDER_COLOR }} />
-                            <MenuOption style={{height: 35, marginTop: 7}} onSelect={this.onShowGender} text='Gender'/><Divider style={{ backgroundColor: Global.BORDER_COLOR }} />
+                            <MenuOption style={{height: 35, marginTop: 7}} onSelect={this.onShowRadius} text='Radius' /><Divider style={{ backgroundColor: '#AAA' }} />
+                            <MenuOption style={{height: 35, marginTop: 7}} onSelect={this.onShowHouseholdIncome} text='Household Income' /><Divider style={{ backgroundColor: '#AAA' }} />
+                            <MenuOption style={{height: 35, marginTop: 7}} onSelect={this.onShowAge} text='Age'/><Divider style={{ backgroundColor: '#AAA' }} />
+                            <MenuOption style={{height: 35, marginTop: 7}} onSelect={this.onShowHomeOwnership} text='Home Ownership'/><Divider style={{ backgroundColor: '#AAA' }} />
+                            <MenuOption style={{height: 35, marginTop: 7}} onSelect={this.onShowGender} text='Gender'/><Divider style={{ backgroundColor: '#AAA' }} />
                             <MenuOption style={{height: 35, marginTop: 7}} onSelect={this.onShowPresenceOfChildren} text='Presence of Children'/>
                         </MenuOptions>
                     </Menu>                    
                 </View>
-                <Dialog visible={this.state.radiusVisible} width={Global.VW*80} top={150}>
-                    <DialogHeader title="Radius"/>
-                    <DialogContent flexDirection='row' justifyContent='flex-start'>
+                <WebView source={{uri:'file:///android_asset/usps.html'}} javaScriptEnabled={true} domStorageEnabled={true} ref = {(ref) => { this.webViewRef = ref }} onMessage = {this.onSelectRegion}/>
+                
+                <AthenaDialog visible={this.state.radiusVisible} width={Global.VW*80} top={150}>
+                    <AthenaDialogHeader title="Radius"/>
+                    <AthenaDialogContent flexDirection='row' justifyContent='flex-start'>
                         <RadioGroup radioButtons={radiusData} onPress={this.onChangeRadius} />
-                    </DialogContent>
-                    <DialogFooter>   
+                    </AthenaDialogContent>
+                    <AthenaDialogFooter>   
                         <TouchableOpacity style={{width:Global.VW*39}} onPress={this.onSaveRadius}>
                             <Text style={{textAlign: 'center', fontSize: 15, color: Global.WHITE_COLOR, fontWeight: 'bold'}}>OK</Text>
                         </TouchableOpacity>
-                        <View style={{width: 1, height: 35, borderRightWidth: 1, borderColor: Global.WHITE_COLOR}}></View>
+                        <Text style={{textAlign: 'center', fontSize: 15, color: Global.WHITE_COLOR, fontWeight: 'bold'}}>|</Text>
                         <TouchableOpacity style={{width:Global.VW*39}} onPress={() => this.setState({ radiusVisible: false })}>
                             <Text style={{textAlign: 'center', fontSize: 15, color: Global.WHITE_COLOR, fontWeight: 'bold'}}>CANCEL</Text>
                         </TouchableOpacity>
-                    </DialogFooter>
-                </Dialog>
-                <Dialog visible={this.state.householdIncomeVisible} width={Global.VW*80} top={100}>
-                    <DialogHeader title="Household Income"/>
-                    <DialogContent>
+                    </AthenaDialogFooter>
+                </AthenaDialog>
+                <AthenaDialog visible={this.state.householdIncomeVisible} width={Global.VW*80} top={150}>
+                    <AthenaDialogHeader title="Household Income"/>
+                    <AthenaDialogContent>
                         <View style={[styles.trDiv, {marginTop: 10}]}>
                             {this.state.householdIncomeVisible ? <CheckBox textID="0" style={styles.tdCheck} value={this.state.D0000k} onValueChange={() => this.onChangeHouseholdIncome('D0000k')} /> : <View />}<Text style={styles.tdTitle}>Select All</Text>
                             <View />
@@ -121,20 +119,20 @@ class SelectRoutesPage extends React.Component {
                             {this.state.householdIncomeVisible ? <CheckBox textID="11" style={styles.tdCheck} value={this.state.D200250k} onValueChange={() => this.onChangeHouseholdIncome('D200250k')} /> : <View />}<Text style={styles.tdTitle}>$ 200-250K</Text>
                             {this.state.householdIncomeVisible ? <CheckBox textID="12" style={styles.tdCheck} value={this.state.D250pluk} onValueChange={() => this.onChangeHouseholdIncome('D250pluk')} /> : <View />}<Text style={styles.tdTitle}>$ 250K+</Text>
                         </View>
-                    </DialogContent>
-                    <DialogFooter>   
+                    </AthenaDialogContent>
+                    <AthenaDialogFooter>   
                         <TouchableOpacity style={{width:Global.VW*39}} onPress={this.onSaveHouseholdIncome}>
                             <Text style={{textAlign: 'center', fontSize: 15, color: Global.WHITE_COLOR, fontWeight: 'bold'}}>OK</Text>
                         </TouchableOpacity>
-                        <View style={{width: 1, height: 35, borderRightWidth: 1, borderColor: Global.WHITE_COLOR}}></View>
+                        <Text style={{textAlign: 'center', fontSize: 15, color: Global.WHITE_COLOR, fontWeight: 'bold'}}>|</Text>
                         <TouchableOpacity style={{width:Global.VW*39}} onPress={() => this.setState({ householdIncomeVisible: false })}>
                             <Text style={{textAlign: 'center', fontSize: 15, color: Global.WHITE_COLOR, fontWeight: 'bold'}}>CANCEL</Text>
                         </TouchableOpacity>
-                    </DialogFooter>
-                </Dialog>
-                <Dialog visible={this.state.ageVisible} width={Global.VW*80} top={150}>
-                    <DialogHeader title="Age"/>
-                    <DialogContent>
+                    </AthenaDialogFooter>
+                </AthenaDialog>
+                <AthenaDialog visible={this.state.ageVisible} width={Global.VW*80} top={150}>
+                    <AthenaDialogHeader title="Age"/>
+                    <AthenaDialogContent>
                         <View style={[styles.trDiv, {marginTop: 10}]}>
                             {this.state.ageVisible ? <CheckBox textID="1" style={styles.tdCheck} value={this.state.A1824E} onValueChange={() => this.onChangeAge('A1824E')} /> : <View />}<Text style={styles.tdTitle}>18 - 24</Text>
                             {this.state.ageVisible ? <CheckBox textID="2" style={styles.tdCheck} value={this.state.A2534E} onValueChange={() => this.onChangeAge('A2534E')} /> : <View />}<Text style={styles.tdTitle}>25 - 34</Text>
@@ -147,201 +145,85 @@ class SelectRoutesPage extends React.Component {
                             {this.state.ageVisible ? <CheckBox textID="5" style={styles.tdCheck} value={this.state.A5564E} onValueChange={() => this.onChangeAge('A5564E')} /> : <View />}<Text style={styles.tdTitle}>55 - 64</Text>
                             {this.state.ageVisible ? <CheckBox textID="6" style={styles.tdCheck} value={this.state.A65plu} onValueChange={() => this.onChangeAge('A65plu')} /> : <View />}<Text style={styles.tdTitle}>65+</Text>
                         </View>
-                    </DialogContent>
-                    <DialogFooter>   
+                    </AthenaDialogContent>
+                    <AthenaDialogFooter>   
                         <TouchableOpacity style={{width:Global.VW*39}} onPress={this.onSaveAge}>
                             <Text style={{textAlign: 'center', fontSize: 15, color: Global.WHITE_COLOR, fontWeight: 'bold'}}>OK</Text>
                         </TouchableOpacity>
-                        <View style={{width: 1, height: 35, borderRightWidth: 1, borderColor: Global.WHITE_COLOR}}></View>
+                        <Text style={{textAlign: 'center', fontSize: 15, color: Global.WHITE_COLOR, fontWeight: 'bold'}}>|</Text>
                         <TouchableOpacity style={{width:Global.VW*39}} onPress={() => this.setState({ ageVisible: false })}>
                             <Text style={{textAlign: 'center', fontSize: 15, color: Global.WHITE_COLOR, fontWeight: 'bold'}}>CANCEL</Text>
                         </TouchableOpacity>
-                    </DialogFooter>
-                </Dialog>
-                <Dialog visible={this.state.homeOwnershipVisible} width={Global.VW*80} top={150}>
-                    <DialogHeader title="Home Ownership"/>
-                    <DialogContent>
+                    </AthenaDialogFooter>
+                </AthenaDialog>
+                <AthenaDialog visible={this.state.homeOwnershipVisible} width={Global.VW*80} top={150}>
+                    <AthenaDialogHeader title="Home Ownership"/>
+                    <AthenaDialogContent>
                         <View style={[styles.trDiv, {marginTop: 10}]}>
                             {this.state.homeOwnershipVisible ? <CheckBox textID="1" style={styles.tdCheck} value={this.state.renter} onValueChange={() => this.onChangeHomeOwnership('renter')} /> : <View />}<Text style={styles.tdTitle}>Render</Text>
                         </View>
                         <View style={[styles.trDiv, {marginTop: 10}]}>
                             {this.state.homeOwnershipVisible ? <CheckBox textID="2" style={styles.tdCheck} value={this.state.homeOwner} onValueChange={() => this.onChangeHomeOwnership('homeOwner')} /> : <View />}<Text style={styles.tdTitle}>Homeowner</Text>
                         </View>
-                    </DialogContent>
-                    <DialogFooter>   
+                    </AthenaDialogContent>
+                    <AthenaDialogFooter>   
                         <TouchableOpacity style={{width:Global.VW*39}} onPress={this.onSaveHomeOwnership}>
                             <Text style={{textAlign: 'center', fontSize: 15, color: Global.WHITE_COLOR, fontWeight: 'bold'}}>OK</Text>
                         </TouchableOpacity>
-                        <View style={{width: 1, height: 35, borderRightWidth: 1, borderColor: Global.WHITE_COLOR}}></View>
+                        <Text style={{textAlign: 'center', fontSize: 15, color: Global.WHITE_COLOR, fontWeight: 'bold'}}>|</Text>
                         <TouchableOpacity style={{width:Global.VW*39}} onPress={() => this.setState({ homeOwnershipVisible: false })}>
                             <Text style={{textAlign: 'center', fontSize: 15, color: Global.WHITE_COLOR, fontWeight: 'bold'}}>CANCEL</Text>
                         </TouchableOpacity>
-                    </DialogFooter>
-                </Dialog>
-                <Dialog visible={this.state.genderVisible} width={Global.VW*80} top={150}>
-                    <DialogHeader title="Gender"/>
-                    <DialogContent>
+                    </AthenaDialogFooter>
+                </AthenaDialog>
+                <AthenaDialog visible={this.state.genderVisible} width={Global.VW*80} top={150}>
+                    <AthenaDialogHeader title="Gender"/>
+                    <AthenaDialogContent>
                         <View style={[styles.trDiv, {marginTop: 10}]}>
                             {this.state.genderVisible ? <CheckBox textID="1" style={styles.tdCheck} value={this.state.adultMales} onValueChange={() => this.onChangeGender('adultMales')} /> : <View />}<Text style={styles.tdTitle}>Adult Males</Text>
                         </View>
                         <View style={[styles.trDiv, {marginTop: 10}]}>
                             {this.state.genderVisible ? <CheckBox textID="2" style={styles.tdCheck} value={this.state.adultFemales} onValueChange={() => this.onChangeGender('adultFemales')} /> : <View />}<Text style={styles.tdTitle}>Adult Females</Text>
                         </View>
-                    </DialogContent>
-                    <DialogFooter>   
+                    </AthenaDialogContent>
+                    <AthenaDialogFooter>   
                         <TouchableOpacity style={{width:Global.VW*39}} onPress={this.onSaveGender}>
                             <Text style={{textAlign: 'center', fontSize: 15, color: Global.WHITE_COLOR, fontWeight: 'bold'}}>OK</Text>
                         </TouchableOpacity>
-                        <View style={{width: 1, height: 35, borderRightWidth: 1, borderColor: Global.WHITE_COLOR}}></View>
+                        <Text style={{textAlign: 'center', fontSize: 15, color: Global.WHITE_COLOR, fontWeight: 'bold'}}>|</Text>
                         <TouchableOpacity style={{width:Global.VW*39}} onPress={() => this.setState({ genderVisible: false })}>
                             <Text style={{textAlign: 'center', fontSize: 15, color: Global.WHITE_COLOR, fontWeight: 'bold'}}>CANCEL</Text>
                         </TouchableOpacity>
-                    </DialogFooter>
-                </Dialog>
-                <Dialog visible={this.state.presenceOfChildrenVisible} width={Global.VW*80} top={150}>
-                    <DialogHeader title="Presence Of Children"/>
-                    <DialogContent>
+                    </AthenaDialogFooter>
+                </AthenaDialog>
+                <AthenaDialog visible={this.state.presenceOfChildrenVisible} width={Global.VW*80} top={150}>
+                    <AthenaDialogHeader title="Presence Of Children"/>
+                    <AthenaDialogContent>
                         <View style={[styles.trDiv, {marginTop: 10}]}>
-                            {this.state.presenceOfChildrenVisible ? <CheckBox textID="1" style={styles.tdCheck} value={this.state.childrenInHousehold} onValueChange={() => this.onChangePresenceOfChildren('childrenInHousehold')} /> : <View />}<Text style={styles.tdTitle}>Children In Household</Text>
+                            {this.state.presenceOfChildrenVisible ? <CheckBox textID="1" style={styles.tdCheck} value={this.state.childrenInHousehold} onValueChange={() => this.onChangeGender('childrenInHousehold')} /> : <View />}<Text style={styles.tdTitle}>Adult Males</Text>
                         </View>
                         <View style={[styles.trDiv, {marginTop: 10}]}>
-                            {this.state.presenceOfChildrenVisible ? <CheckBox textID="2" style={styles.tdCheck} value={this.state.noChildrenInHousehold} onValueChange={() => this.onChangePresenceOfChildren('noChildrenInHousehold')} /> : <View />}<Text style={styles.tdTitle}>No Children In Household</Text>
+                            {this.state.presenceOfChildrenVisible ? <CheckBox textID="2" style={styles.tdCheck} value={this.state.noChildrenInHousehold} onValueChange={() => this.onChangeGender('noChildrenInHousehold')} /> : <View />}<Text style={styles.tdTitle}>Adult Females</Text>
                         </View>
-                    </DialogContent>
-                    <DialogFooter>   
+                    </AthenaDialogContent>
+                    <AthenaDialogFooter>   
                         <TouchableOpacity style={{width:Global.VW*39}} onPress={this.onSavePresenceOfChildren}>
                             <Text style={{textAlign: 'center', fontSize: 15, color: Global.WHITE_COLOR, fontWeight: 'bold'}}>OK</Text>
                         </TouchableOpacity>
-                        <View style={{width: 1, height: 35, borderRightWidth: 1, borderColor: Global.WHITE_COLOR}}></View>
+                        <Text style={{textAlign: 'center', fontSize: 15, color: Global.WHITE_COLOR, fontWeight: 'bold'}}>|</Text>
                         <TouchableOpacity style={{width:Global.VW*39}} onPress={() => this.setState({ presenceOfChildrenVisible: false })}>
                             <Text style={{textAlign: 'center', fontSize: 15, color: Global.WHITE_COLOR, fontWeight: 'bold'}}>CANCEL</Text>
                         </TouchableOpacity>
-                    </DialogFooter>
-                </Dialog>                
-                <Dialog visible={this.state.registerVisible} width={Global.VW*80} top={150}>
-                    <DialogHeader title="Sign In or Register" closeVisible={true} onClose={() => this.setState({ registerVisible: false})}/>
-                    <DialogContent justifyContent='center' alignItems='center'>
-                        <View style={{width: '100%', marginTop: 10}}>
-                            <Text style={styles.tdContent}>To save your work for current and future reference, please take a moment and sign in or register a FREE account.</Text>
-                        </View>
-                        <View style={{width: '100%', marginTop: 10, justifyContent: 'center', alignItems: 'center'}}>
-                            <Button buttonTitle="Sign In" width='60%' icon={loginIcon} onClick={() => this.setState({ loginVisible: true, registerVisible: false})}/>
-                        </View>
-                        <View style={{width: '100%', marginTop: 10, marginBottom: 10, justifyContent: 'center', alignItems: 'center'}}>
-                            <Button buttonTitle="Register" width='60%' icon={registerIcon} onClick={() => this.setState({ signupVisible: true, registerVisible: false})}/>
-                        </View>
-                    </DialogContent>
-                </Dialog>              
-                <Dialog visible={this.state.loginVisible} width={Global.VW*80} top={150}>
-                    <DialogHeader title="Sign In" closeVisible={true} onClose={() => this.setState({ loginVisible: false})}/>
-                    <DialogContent justifyContent='center' alignItems='center'>
-                        <View style={{width: '100%', marginTop: 10, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                            <AthenaTextInput placeholder="Email Address" width="90%" keyboardType="email-address"/>
-                        </View>
-                        <View style={{width: '100%', marginTop: 10, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                            <AthenaTextInput placeholder="Password" width="90%" secureTextEntry={true}/>
-                        </View>
-                        <View style={{width: '100%', marginTop: 10, marginBottom: 10, justifyContent: 'center', alignItems: 'center'}}>
-                            <Button buttonTitle="Sign In" width="60%" icon={loginIcon} onClick={this.onLogin}/>
-                        </View>
-                    </DialogContent>
-                </Dialog>             
-                <Dialog visible={this.state.signupVisible} width={Global.VW*80} top={150}>
-                    <DialogHeader title="Register" closeVisible={true} onClose={() => this.setState({signupVisible: false})}/>
-                    <DialogContent justifyContent='center' alignItems='center'>
-                        <View style={{width: '100%', marginTop: 10, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                            <AthenaTextInput placeholder="Email Address" width="90%" keyboardType="email-address"/>
-                        </View>
-                        <View style={{width: '100%', marginTop: 10, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                            <AthenaTextInput placeholder="Choose a Password" width="90%" secureTextEntry={true}/>
-                        </View>              
-                        <View style={{width: '100%', marginTop: 10, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                            <AthenaTextInput placeholder="Confirm your Password" width="90%" secureTextEntry={true}/>
-                        </View>
-                        <View style={{width: '100%', marginTop: 10, marginBottom: 10, justifyContent: 'center', alignItems: 'center'}}>
-                            <Button buttonTitle="Register" width="60%" icon={registerIcon} onClick={() => this.setState({signupVisible: false, verificationVisible: true})}/>
-                        </View>
-                    </DialogContent>
-                </Dialog>             
-                <Dialog visible={this.state.verificationVisible} width={Global.VW*80} top={150}>
-                    <DialogHeader title="Email Verification" closeVisible={true} onClose={() => this.setState({ verificationVisible: false})}/>
-                    <DialogContent justifyContent='center' alignItems='center'>
-                        <View style={{width: '100%', marginTop: 10}}>
-                            <Text style={[styles.tdContent,{textAlign: 'center'}]}>Please check your inbox for a confirmation email.{'\n'}Click the link in the email to confirm{'\n'}your email address.</Text>
-                        </View>
-                        <View style={{width: '100%', marginTop: 10}}>
-                            <Text style={[styles.tdTitle,{textAlign: 'center'}]}>star.master.1126@outlook.com</Text>
-                        </View>
-                        <View style={{width: '100%', marginTop: 10, justifyContent: 'center', alignItems: 'center'}}>
-                            <Button buttonTitle="Resend" width='60%' onClick={() => alert('Email Resend')}/>
-                        </View>
-                        <View style={{width: '100%', marginTop: 10, marginBottom: 10, justifyContent: 'center', alignItems: 'center'}}>
-                            <Button buttonTitle="Continue" width='60%'  onClick={this.onRegisterSuccess}/>
-                        </View>
-                    </DialogContent>
-                </Dialog>
-                {this.state.cardVisible ?
-                    <View style={styles.cardContainer}>
-                        <View style={styles.cardHeader}>
-                            <View style={{width: 20}}/>
-                            <Text style={styles.cardTitle}>Select Summary</Text>
-                            <TouchableOpacity onPress={this.onMinimize}>
-                                <Image source={minimizeIcon} style={{width: 20, height: 20, margin: 10}}/>
-                            </TouchableOpacity>
-                        </View>  
-                        <View style={styles.cardContent}>
-                            <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',}}>
-                                <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '30%'}}>
-                                    <Image source={routesIcon} style={{marginTop: 10, marginLeft: 10, width: 35, height: 35}}/>
-                                    <Text style={[styles.tdContent,{textAlign: 'center'}]}>Routes</Text>
-                                    <Text style={[styles.tdContent,{textAlign: 'center'}]}>{this.state.routesValue}</Text>
-                                </View>
-                                <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '30%'}}>
-                                    <Image source={businessIcon} style={{marginTop: 10, marginLeft: 10, width: 35, height: 35}}/>
-                                    <Text style={[styles.tdContent,{textAlign: 'center'}]}>Business</Text>
-                                    <Text style={[styles.tdContent,{textAlign: 'center'}]}>{this.state.businessValue}</Text>
-                                </View>
-                                <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '30%'}}>
-                                    <Image source={residentialIcon} style={{marginTop: 10, marginLeft: 10, width: 35, height: 35}}/>
-                                    <Text style={[styles.tdContent,{textAlign: 'center'}]}>Residential</Text>
-                                    <Text style={[styles.tdContent,{textAlign: 'center'}]}>{this.state.residentialValue}</Text>
-                                </View>
-                            </View>
-                            <View style={[styles.trDiv, {marginTop: 10}]}>
-                                <Text style={styles.tdContent}>Residential Only:</Text>
-                                <CheckBox value={this.state.residentialChecked} onValueChange={this.onChangeResidential} />
-                            </View>
-                            <View style={styles.trDiv}>
-                                <Text style={styles.tdContent}>Total Address:</Text>
-                                <Text style={[styles.tdContent,{marginRight: 10}]}>{this.state.residentialChecked ? this.state.residentialValue : (this.state.routesValue + this.state.businessValue + this.state.residentialValue)}</Text>
-                            </View>
-                            <View style={[{width: '100%', height: 5, borderBottomWidth: 1, borderColor: Global.BORDER_COLOR}]}></View>
-                            <View style={[styles.trDiv, {marginTop: 10}]}>
-                                <Text style={{color: Global.FONT_COLOR}}>Total:</Text>
-                                <Text style={{marginRight: 10, color: Global.FONT_COLOR}}>$ {this.state.residentialChecked ? this.state.residentialValue*0.75 : (this.state.routesValue + this.state.businessValue + this.state.residentialValue)*0.75}</Text>
-                            </View>
-                            <View style={[{width: '100%', height: 5}]}></View>
-                            <View style={{marginTop: 10, width: '100%', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                                <Button buttonTitle="Continue" width="90%" onClick={() => this.setState({ registerVisible: true})}/>
-                            </View>
-                        </View>
-                    </View> :
-                    <View style={styles.maximizeBtn}>
-                        <TouchableOpacity onPress={this.onMaximize}>
-                            <Image source={maximizeIcon} style={{width: 20, height: 20, margin: 10}}/>
-                        </TouchableOpacity>
-                    </View>
-                }
-                <WebView source={{uri:'http://mymap.byethost15.com/usps.html'}} javaScriptEnabled={true} domStorageEnabled={true} ref = {(ref) => { this.webViewRef = ref }} onMessage = {this.onSelectRegion}/>
+                    </AthenaDialogFooter>
+                </AthenaDialog>
             </View>
         );
     }
-    onSelectRegion = (data) => {
+    onSelectRegion(data) {
         let result = JSON.parse(data.nativeEvent.data);
         var businessCount = result.businessCount;
         var residentialCount = result.residentialCount;
-        this.setState({businessValue: businessCount});
-        this.setState({residentialValue: residentialCount});
+        
     }
     onShowRadius = () => {
         this.setState({ radiusVisible: true })
@@ -453,15 +335,11 @@ class SelectRoutesPage extends React.Component {
         if(key == 'childrenInHousehold') {childrenInHousehold == true ? this.setState({ childrenInHousehold: false }) : this.setState({ childrenInHousehold: true});}
         else if(key == 'noChildrenInHousehold') {noChildrenInHousehold == true ? this.setState({ noChildrenInHousehold: false }) : this.setState({ noChildrenInHousehold: true});}
     };
-    onChangeResidential = (key) => {
-        const {residentialChecked} = this.state;
-        residentialChecked == true ? this.setState({ residentialChecked: false }) : this.setState({ residentialChecked: true});
-    };
 
 
     onSaveRadius = () => {
         routesData.radius = this.state.radiusValue;
-        // alert(routesData.radius);
+        alert(routesData.radius);
         this.setState({ radiusVisible: false });
     };
     onSaveHouseholdIncome = () => {
@@ -509,22 +387,6 @@ class SelectRoutesPage extends React.Component {
         if(this.state.noChildrenInHousehold == true) {routesData.presenceOfChildren.push('noChildrenInHousehold')}
         this.setState({ presenceOfChildrenVisible: false });
     };
-
-    onMinimize = () => {
-        this.setState({ cardVisible: false });
-    };
-    onMaximize = () => {
-        this.setState({ cardVisible: true });
-    };
-
-    onLogin = () => {
-        this.setState({loginVisible: false});
-        this.props.navigation.navigate("DesignPrintPage");
-    }
-    onRegisterSuccess = () => {
-        this.setState({verificationVisible: false});
-        this.props.navigation.navigate("DesignPrintPage");
-    }
 }
 
 const styles = StyleSheet.create({
@@ -535,6 +397,7 @@ const styles = StyleSheet.create({
         backgroundColor: Global.WHITE_COLOR
     },
     autocompleteView: {
+        // position: 'absolute',
         flexDirection:'row',
         justifyContent: 'space-between',
         top: 0, left: 0,
@@ -547,92 +410,18 @@ const styles = StyleSheet.create({
         height: 25, 
         justifyContent: 'space-between',
         alignItems: 'center',
+        // borderBottomWidth: 1,
+        // borderColor: Global.DARK_BLUE_COLOR,
     },
     tdCheck: {
-        width: '15%',        
+        width: '15%',
+        
     },
     tdTitle: {
         flex: 1, 
         fontSize: 15, 
-        color: Global.FONT_COLOR
+        color: Global.BLACK_COLOR
     },
-    tdContent: {
-        // width: '50%',  
-        fontSize: 10, 
-        color: Global.FONT_COLOR
-    },
-    cardContainer: {
-        position: 'absolute', 
-        justifyContent: 'center', 
-        alignItems: 'center',
-        width: Global.VW*65, 
-        right: 5, bottom: 5,
-        zIndex: 88
-    },
-    cardHeader: {
-        width: '100%',
-        height: 35,
-        backgroundColor: Global.TITLE_COLOR,
-        borderWidth: 1,
-        borderColor: Global.BORDER_COLOR,
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        shadowColor: Global.BLACK_COLOR,
-        shadowOffset: { width: 0, height: 10 },
-        shadowOpacity: 0.8,
-        shadowRadius: 20,
-        elevation: 10,
-    },
-    cardTitle: {
-        textAlign: 'center',
-        fontWeight: 'bold',
-        color: Global.WHITE_COLOR,
-        fontSize: 15
-    },
-    cardContent: {
-      width: '100%',
-      backgroundColor: Global.WHITE_COLOR,
-      borderLeftWidth: 1,
-      borderRightWidth: 1,
-      borderBottomWidth: 1,
-      borderColor: Global.BORDER_COLOR,
-      padding: 10,
-      shadowColor: Global.BLACK_COLOR,
-      shadowOffset: { width: 0, height: 10 },
-      shadowOpacity: 0.8,
-      shadowRadius: 20,
-      elevation: 10,
-
-    },
-    cardFooter: {
-        width: '100%',
-        height: 35,
-        backgroundColor: Global.TITLE_COLOR,
-        borderWidth: 1,
-        borderColor: Global.BORDER_COLOR,
-        // borderTopLeftRadius: 10,
-        // borderTopRightRadius: 10,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    maximizeBtn: {
-        position: 'absolute',
-        right: 5, bottom: 5,
-        width: 35,
-        height: 35,
-        backgroundColor: Global.TITLE_COLOR,
-        borderWidth: 1,
-        borderColor: Global.BORDER_COLOR,
-        borderRadius: 10,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 88
-    }
 });
 
 export default SelectRoutesPage;
