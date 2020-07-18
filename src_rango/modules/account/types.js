@@ -1,0 +1,4 @@
+export default {
+    REMEMBER_ACCOUNT: 'REMEMBER_ACCOUNT',
+    CLEAR_ACCOUNT: 'CLEAR_ACCOUNT',
+};

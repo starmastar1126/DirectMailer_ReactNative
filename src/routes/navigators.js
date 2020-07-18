@@ -1,5 +1,0 @@
-const Navigators = {};
-
-export {
-  Navigators,
-};
